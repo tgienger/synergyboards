@@ -7,7 +7,7 @@ angular.module('synergyApp')
       restrict: 'EA',
       scope: {boards: '='},
       link: function (scope, element, attrs) {
-        console.log('hello world');
+
       }
     };
   });

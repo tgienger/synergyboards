@@ -10,4 +10,15 @@ angular.module('synergyApp')
       console.log($scope.boards);
     });
 
+
+
+    $(function() {
+        // Replace all textarea's
+        // with SCEditor
+        $("textarea").sceditor({
+            plugins: "bbcode",
+            style: "minified/jquery.sceditor.default.min.css"
+        });
+    });
+
   }]);
