@@ -1,0 +1,27 @@
+<!-- <div ng-include="'components/navbar/navbar.html'"></div> -->
+<div class="container">
+  <div class="content">
+
+    <div class="threadContainer" ng-repeat="board in boards track by $index">
+      <div class="row body_container">
+
+        <div class="thread_container">
+          <div class="row thread_heading">
+            <div class="thread_body">
+              <a href="#" class="">{{board.subject}}</a>
+              <p>{{board.message}}</p>
+            </div>
+            <img src="/forum-image" alt="" class="pull-right">
+          </div>
+
+          <div class="thread_body row">
+            <a class="" href="/boards/{{board.fid}}"><img src="/boardimage" alt=""> {{board.username}}</a>
+            <p style="font-size:.75em;">{{board.boardject}}</p>
+            <p class="" style="text-align:left;"><span>{{board.message}}</span></p>
+            <p class="col-xs-1 " style="text-align:center;"><span>{{board.posts}}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

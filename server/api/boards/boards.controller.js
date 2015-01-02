@@ -41,3 +41,13 @@ exports.threadId = function(req, res) {
     res.send(data);
   });
 };
+
+
+exports.postId = function (req, res) {
+  var id = req.params.id;
+
+  db.query('SELECT * FROM mybb_posts WHERE tid = ?', [id], function(err, data) {
+    if (err) throw err;
+    res.send(data);
+  });
+};

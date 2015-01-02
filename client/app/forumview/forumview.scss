@@ -1,0 +1,30 @@
+.thread {
+  padding: 5px;
+}
+
+.thread_container {
+  width: 90%;
+  margin:auto;
+}
+
+.thread_heading {
+  margin-bottom: 5px;
+  background: $header-color;
+  font-size: 1.2em;
+  padding:3px;
+  color:white;
+}
+.thread_heading a {
+  text-decoration:none;
+}
+.thread_heading a:hover {
+  text-decoration: none;
+}
+
+
+.thread_body {
+  background: $post-back-color;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  padding: 5px;
+}

@@ -14,14 +14,15 @@
           <p class="col-sm-2 col-sm-offset-2" style="text-align:center;">Last Post</p>
 
         </div>
-        <div class="thread col-xs-12 thread" ng-repeat="sub in board.replies">
+        <div ng-click="showThreads = !showThreads" class="thread col-xs-12 thread" ng-repeat="sub in board.replies">
           <a class="col-sm-4 " href="/boards/{{sub.fid}}"><img src="/boardimage" alt=""> {{sub.name}}</a>
-          <p class="col-xs-1 col-sm-offset-2" style="text-align:center;"><span>{{sub.threads}}</span></p>
-          <p class="col-xs-1 " style="text-align:center;"><span>{{sub.posts}}</span></p>
-          <p class="col-xs-3 col-xs-offset-1" style="text-align:right;">
+
+          <p ng-hide="showThreads" class="col-xs-1 col-sm-offset-2" style="text-align:center;"><span>{{sub.threads}}</span></p>
+          <p ng-hide="showThreads" class="col-xs-1 " style="text-align:center;"><span>{{sub.posts}}</span></p>
+          <p ng-hide="showThreads" class="col-xs-3 col-xs-offset-1" style="text-align:right;">
             <span ng-if="sub.lastpostsubject">
               <span style="font-size:.75em;">{{sub.lastpost*1000 | date : 'MM-dd-yyyy h:mm a'}}</span>
-              <br><a href="/boards/threads/{{sub.lastposttid}}">{{sub.lastpostsubject | limitTo: 25}}...</a>
+              <br><a href="/forumview/{{sub.lastposttid}}">{{sub.lastpostsubject | limitTo: 25}}...</a>
               <br><span ng-show="sub.lastposter" style="font-size:.75em;">by {{sub.lastposter}}</span>
             </span>
             <span ng-if="!sub.lastposter" style="font-size:.80em;">Never</span>

@@ -1,8 +1,27 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
+/* variables */
+$font-color: #dcdcdc;
+$body-color: #1e1e1e;
+$header-color: #262626;
+$post-color: #151515;
+$post-back-color: #202020;
+
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
+
+
+/**
+ * @mixin's
+ */
+@mixin box-sizing($style) {
+  -webkit-webkit-border-radius: $style;
+  -moz-webkit-border-radius: $style;
+  -ms-webkit-border-radius: $style;
+  -o-webkit-border-radius: $style;
+  border-radius: $style;
+}
 
 /**
  * App-wide Styles
@@ -14,10 +33,15 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     color: #000;
     padding: 0.2em 0;
 }
+.body_container {
+  background: $body-color;
+}
 
 // Component styles are injected through grunt
 // injector
+@import 'createPost/createPost.scss';
 @import 'forumview/forumview.scss';
 @import 'main/main.scss';
+@import 'threads/threads.scss';
 @import 'modal/modal.scss';
 // endinjector

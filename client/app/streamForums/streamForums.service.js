@@ -30,6 +30,30 @@ angular.module('synergyApp')
             }
           });
           // viewModel.sort(sortByGmdateCreated)
+        },
+
+        showThread: function(viewModel, results) {
+          var merged;
+          merged = viewModel.concat(results);
+          angular.forEach(results, function(post) {
+            post.replies = post.replies || [];
+            if (post.replyto > 0) {
+              angular.forEach(merged, function(parent) {
+                parent.replies = parent.replies || [];
+                if (parent.pid === post.replyto) {
+                  parent.replies.push(post)
+                }
+              })
+            } else {
+              viewModel.push(post)
+            }
+          });
+          // angular.forEach(viewModel, function(parent) {
+          //   if (angular.isArray(parent.replies)) {
+          //     parent.replies.sort(sortByGmdateCreated)
+          //   }
+          // });
+          // viewModel.sort(sortByGmdateCreated)
         }
       }
 
