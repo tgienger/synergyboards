@@ -9,7 +9,7 @@
           <div class="row thread_heading">
             <div class="thread_body">
               <a href="#" class="">{{board.subject}}</a>
-              <p ng-bind-html="board.message"></p>
+              <p ng-bind-html="board.message | findLinks | toTrusted"></p>
             </div>
             <!-- <img src="/forum-image" alt="" class="pull-right"> -->
           </div>
