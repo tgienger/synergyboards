@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var db = require('../../config/mysql');
+var bbcode = require('bbcode');
 
 
 // Get list of boardss
@@ -48,6 +49,12 @@ exports.postId = function (req, res) {
 
   db.query('SELECT * FROM mybb_posts WHERE tid = ?', [id], function(err, data) {
     if (err) throw err;
+    console.log(data);
+    data.forEach(function(post) {
+      bbcode.parse(post.message, function(msg) {
+        post.message = msg;
+      });
+    });
     res.send(data);
   });
 };
