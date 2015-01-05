@@ -44,7 +44,11 @@ exports.threadId = function(req, res) {
 };
 
 
-exports.postId = function (req, res) {
+/**
+ * Grab thread based on thread id [tid] or post id [pid]
+ * Todo: grab forums based on forum id [fid]
+ */
+exports.getThread = function (req, res) {
   var tid = req.query.tid;
   var pid = req.query.pid;
   var fid = req.query.fid;
@@ -56,7 +60,7 @@ exports.postId = function (req, res) {
     query = 'SELECT * FROM synergyBoard.mybb_posts where tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?)';
     input = pid;
   } else {
-    query = 'SELECT * FROM mybb_posts WHERE tid = ?';
+    query = 'SELECT * FROM synergyBoard.mybb_posts WHERE tid = ?';
     input = tid;
   }
 

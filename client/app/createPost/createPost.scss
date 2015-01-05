@@ -5,6 +5,9 @@
   width: 100%;
   max-width: 100%;
 }
+.sc-editor {
+  height: 200px;
+}
 
 .sceditor-container {
   /* background: \$post-back-color; */
@@ -18,7 +21,7 @@
 }
 
 .sceditor-toolbar {
-  height: 35px;
+  /* height: 35px; */
   background: $header-color;
   color: $font-color;
 }

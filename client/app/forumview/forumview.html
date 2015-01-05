@@ -10,7 +10,7 @@
             <a href="#" class="">{{board.subject}}</a>
             <div class="thread_body">
               <a href=""><img src="/userimage" alt=""> {{board.username}}</a>
-              <p ng-bind-html="board.message | findLinks | toTrusted"></p>
+              <p ng-bind-html="board.message | bbcode | findLinks | toTrusted"></p>
             </div>
             <!-- <img src="/forum-image" alt="" class="pull-right"> -->
           </div>
@@ -18,7 +18,7 @@
           <div class="thread_body row" ng-repeat="sub in board.replies" id="{{sub.pid}}">
             <a class="" href="/boards/{{sub.fid}}"><img src="/userimage" alt=""> {{sub.username}}</a>
             <p style="font-size:.75em;">{{sub.subject}}</p>
-            <p class="" style="text-align:left;" ng-bind-html="sub.message | findLinks | bbcode | toTrusted"></p>
+            <p class="" style="text-align:left;" ng-bind-html="sub.message | bbcode | findLinks | toTrusted"></p>
             <p class="col-xs-1 " style="text-align:center;"><span>{{sub.posts}}</span></p>
           </div>
 
