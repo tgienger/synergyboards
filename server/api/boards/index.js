@@ -9,6 +9,8 @@ router.get('/', controller.index);
 router.get('/:id', controller.id);
 router.get('/threads', controller.threads);
 router.get('/threads/:id', controller.threadId);
-router.get('/posts/:id', controller.postId);
+// router.get('/forum/:fid/thread/:tid', controller.postId);
+router.get('/forum/showthread?', controller.postId);
+router.get('/findpost:id?', controller.findPost);
 
 module.exports = router;

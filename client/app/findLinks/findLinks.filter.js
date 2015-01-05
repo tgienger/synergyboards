@@ -2,22 +2,45 @@
 
 angular.module('synergyApp')
   .filter('findLinks', function () {
+
+    var rx_url = /(\shttp|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+    var rx_img_url = /(\shttps?:\/\/.*\.(png|jpg|gif))/;
+    var rx_youtube = /(?:\shttps?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/; 
+
+    /**
+     * [replacer description]
+     * @type {Object}
+     */
+    var replacer = {
+      image: function(match, p1, p2, offset, string) {
+        if (!match) return string;
+        return '<img src="'+match+'" />';
+      },
+      youtube: function(match, p1, p2, offset, string) {
+        return '<iframe width="560" height="315" src="'+match+'" frameborder="0" allowfullscreen></iframe>';
+      },
+      url: function(match, p1, p2, offset, string) {
+        return '<a href="'+match+'">'+match+'</a>';
+      }
+    }
+
+    function parseUrl(str) {
+
+      if (rx_img_url.test(str)) {
+        return str.replace(rx_img_url, replacer.image);
+      }
+      if (rx_youtube.test(str)) {
+        return str.replace(rx_youtube, replacer.youtube);
+      }
+      if (rx_url.test(str)) {
+        return str.replace(rx_url, replacer.url);
+      } 
+      return str;
+
+    }
+
     return function (input) {
 
-      var rx_url = /(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
-      var rx_img_url = /(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#]).(?:jpg|gif|png)$/;
-      var url = input.match(rx_url);
-
-      if (url) {
-        // check if url ends with an image .jpg, .tif, .png, .gif
-        // if it does, place it within an <img> tag
-        var img_url = input.match(rx_img_url);
-        if (img_url) {
-          input = input.replace(img_url[0], '<img src="'+img_url[0]+'" />')
-        } else {
-          input = input.replace(url[0], '<a href="'+url[0]+'">'+url[0]+'</a>');
-        }
-      }
-      return input;
+      return parseUrl(input);
     };
   });

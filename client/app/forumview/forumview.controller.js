@@ -6,12 +6,17 @@ angular.module('synergyApp')
     $scope.boards  = [];
     // $scope.status.status = $sce.trustAsHtml($scope.status.status);
 
-    $http.get('/api/boards/posts/' + $stateParams.id).success(function(b) {
+    /**
+     *  Grabs
+     */
+    $http.get('/api/boards/forum/showthread?fid='+$stateParams.fid+'&tid=' + $stateParams.tid + '&pid=' + $stateParams.pid).success(function(b) {
       streamForums.showThread($scope.boards || ($scope.boards = []), b);
     });
 
 
-
+    /**
+     * turns all textarea's into sceditors
+     */
     $(function() {
         // Replace all textarea's
         // with SCEditor

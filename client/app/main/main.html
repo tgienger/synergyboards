@@ -22,7 +22,7 @@
           <p class="col-xs-3 col-xs-offset-1" style="text-align:right;">
             <span ng-if="sub.lastpostsubject">
               <span style="font-size:.75em;">{{sub.lastpost*1000 | date : 'MM-dd-yyyy h:mm a'}}</span>
-              <br><a href="/forumview/{{sub.lastposttid}}">{{sub.lastpostsubject | limitTo: 25}}...</a>
+              <br><a href="/forum/showthread?fid={{sub.fid}}&tid={{sub.lastposttid}}&action=lastpost">{{sub.lastpostsubject | limitTo: 25}}...</a>
               <br><span ng-show="sub.lastposter" style="font-size:.75em;">by {{sub.lastposter}}</span>
             </span>
             <span ng-if="!sub.lastposter" style="font-size:.80em;">Never</span>

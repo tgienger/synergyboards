@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('synergyApp')
-  .service('streamForums', ['$http', function ($http) {
+  .factory('streamForums', ['$http', function ($http) {
     // AngularJS will instantiate a singleton by calling "new" on this function
   // })
   // .factory("Forums", ['$http', function($http) {
@@ -54,8 +54,14 @@ angular.module('synergyApp')
           //   }
           // });
           // viewModel.sort(sortByGmdateCreated)
+        },
+
+        getThreadId: function(pid) {
+          $http.get('/api/boards/thread/' + pid).then(function(result) {
+            console.log(result[0].tid)
+            return result[0].tid;
+          });
         }
       }
-
     }
   ]);

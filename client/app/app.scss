@@ -6,7 +6,8 @@ $font-color: #dcdcdc;
 $body-color: #1e1e1e;
 $header-color: #262626;
 $post-color: #151515;
-$post-back-color: #202020;
+$post-back-color: rgba(0,0,0,0.1);
+$post-border-color: #454545;
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';

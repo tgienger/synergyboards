@@ -24,7 +24,41 @@
 
 .thread_body {
   background: $post-back-color;
-  border: 1px solid black;
+  border: 1px solid $post-border-color;
   margin-bottom: 5px;
   padding: 5px;
+  border-radius: 2px;
+}
+
+
+/* quoted posts */
+.quote {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid $post-border-color;
+  padding: 5px;
+  border-radius: 2px;
+}
+.quote_top {
+  background: rgba(0,0,0,0.3);
+  /* height: 10px; */
+  padding:3px;
+  width: 100%;
+  border-top: 1px solid $post-border-color;
+  border-bottom: 1px solid $post-border-color;
+  font-size: .75em;
+  color: $font-color;
+  border-radius: 2px;
+}
+.quoted {
+
+}
+.quote_link {
+
+}
+.quote_link:before {
+  content: "\f08e";
+}
+.quote_date {
+  text-align: right;
+  float: right;
 }

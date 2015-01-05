@@ -45,11 +45,24 @@ exports.threadId = function(req, res) {
 
 
 exports.postId = function (req, res) {
-  var id = req.params.id;
+  var tid = req.query.tid;
+  var pid = req.query.pid;
+  var fid = req.query.fid;
 
-  db.query('SELECT * FROM mybb_posts WHERE tid = ?', [id], function(err, data) {
+  var query = '';
+  var input;
+
+  if (!pid || !isNaN(pid)) {
+    query = 'SELECT * FROM synergyBoard.mybb_posts where tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?)';
+    input = pid;
+  } else {
+    query = 'SELECT * FROM mybb_posts WHERE tid = ?';
+    input = tid;
+  }
+
+  db.query(query, input, function(err, data) {
     if (err) throw err;
-    // console.log(data);
+
     data.forEach(function(post) {
       bbcode.parse(post.message, function(msg) {
         post.message = msg;
@@ -57,4 +70,19 @@ exports.postId = function (req, res) {
     });
     res.send(data);
   });
+};
+
+exports.findPost = function(req, res) {
+
+  var pid = req.query.pid;
+
+  if (!pid || isNaN(pid))
+    res.send(401);
+
+  db.query('SELECT * FROM synergyBoard.mybb_posts where tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?', [pid], function(err, data) {
+    if (err) throw err;
+
+    res.send(data);
+  });
+
 };
