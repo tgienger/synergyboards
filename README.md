@@ -11,7 +11,7 @@ inspired by [MyBB](http://www.mybb.com) and
 - [MySQL](http://www.mysql.com)
 - [RethinkDB](http://www.rethinkdb.com)
 
-The idea id to be able to install SynBB over the top of or along side of an existing MyBB installation and still be able to use the original database. The user will also have the option on a fresh installation to use RethinkDB as a database. If all goes as planned the user will also have the option of switching an existing MySQL database to RethinkDB.
+The idea is to be able to install SynBB over the top of or along side of an existing MyBB installation and still be able to use the original database. The user will also have the option on a fresh installation to use RethinkDB as a database. If all goes as planned the user will also have the option of switching an existing MySQL database to RethinkDB.
 
 
 ##### Progress:
