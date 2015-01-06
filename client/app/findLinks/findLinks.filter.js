@@ -14,15 +14,12 @@ angular.module('synergyApp')
      */
     var replacer = {
       image: function(match, p1, p2, offset, string) {
-        console.log(match)
         return '<img src="'+match+'" />';
       },
       youtube: function(match, p1, p2, offset, string) {
-        console.log(match)
         return '<iframe width="560" height="315" src="'+match+'" frameborder="0" allowfullscreen></iframe>';
       },
       url: function(match, p1, p2, offset, string) {
-        console.log(p1);
         return '<a href="'+p1+'">'+p1+'</a>';
       }
     }

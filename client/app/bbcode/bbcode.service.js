@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('synergyApp')
-  .filter('bbcode', ['$http', 'streamForums', function ($http, streamForums) {
+  .filter('bbcode', function () {
 
     /**
-     * regex matching [quote='quotedperson' pid='21' dateline='241241234']quoted text[/quote]
+     * regex matching [tag='tagvalue' tag2='tag2value' tag3='tag3value']tagged text[/tag]
      * @type {RegExp}
      */
     var quote_re = /\[(quote='([^"]*)'\s?pid='([^"]*)'\s?dateline='([^"]*)'\])([^"]*)\[(\/quote)\]/g;
     var any_bbcode_re = /(?:\[([a-z]{1,16})(?:(?:=)(?:"|')?([a-zA-Z0-9]*)(?:"|')?)?\s?(?:([a-z]{1,3})(?:=)(?:"|')([0-9]{1,100})(?:"|'))?\s?(?:([a-z]{1,16})(?:=)(?:"|')([0-9]{1,16})(?:"|'))?(?:\])([^"]*)(?:\[\/)([a-z]{1,16})(?:\]))/ig;
     var quote_start_re = /\[quote[^"]*\]([^"]*)\[\/quote\]/;
     var find_tags = /(?:\[([a-z]{1,16})(?:(?:=)(?:"|')?([a-zA-Z0-9]*)(?:"|')?)?\s?(?:([a-z]{1,3})(?:=)(?:"|')([0-9]{1,100})(?:"|'))?\s?(?:([a-z]{1,16})(?:=)(?:"|')([0-9]{1,16})(?:"|'))?(?:\])([^"]*)(?:\[\/)([a-z]{1,16})(?:\]))/ig;
-    var yt_link_re = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    var yt_link_re = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/ig;
 
 
     /**
@@ -29,9 +29,9 @@ angular.module('synergyApp')
      * @param  {string} string
      * @return {string}        Html from the parsed bbcode
      */
-    function replacer(match, p1, p2, p3, p4, p5, p6, p7, p8, offset, string) {
+    function replacer(match, p1, p2, p3, p4, p5, p6, p7, p8, offset, string) 
+    {
 
-      console.log('start');
       switch (p1) {
 
         case 'q':
@@ -79,4 +79,4 @@ angular.module('synergyApp')
     return function(str) {
       return quotes(str);
     }
-  }]);
+  });
