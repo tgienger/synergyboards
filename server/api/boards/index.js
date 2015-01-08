@@ -10,6 +10,7 @@ router.get('/:id', controller.id);
 router.get('/threads', controller.threads);
 router.get('/threads/:id', controller.threadId);
 router.get('/forum/showthread?', controller.getThread);
+router.get('/forum/showforum/:fid', controller.getForum);
 router.get('/findpost:id?', controller.findPost);
 
 module.exports = router;

@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('synergyApp')
-  .directive('threads', function () {
+  .directive('threads', function ($http, streamForums) {
     return {
       templateUrl: 'app/threads/threads.html',
       restrict: 'EA',
-      scope: {boards: '='},
+      // scope: {forums: '=', fid: '=', forumShown: '='},
       link: function (scope, element, attrs) {
 
-      }
+      },
     };
   });

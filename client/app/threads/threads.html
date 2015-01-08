@@ -1,27 +1,28 @@
-<!-- <div ng-include="'components/navbar/navbar.html'"></div> -->
-<div class="container">
-  <div class="content">
+<div class="thread_container" collapse="!toggle.show">
+  <div class="row" style="font-size:.80em;">
+    <p class="col-sm-4" style="text-align:center;">Subject</p>
+    <p class="col-sm-1 col-sm-offset-2" style="text-align:center;">Replies</p>
+    <p class="col-sm-1" style="text-align:center;">Views</p>
+    <p class="col-sm-1" style="text-align:center;">Rating</p>
+    <p class="col-sm-2 col-sm-offset-1" style="text-align:center;">Last Post</p>
 
-    <div class="threadContainer" ng-repeat="board in boards track by $index">
-      <div class="row body_container">
-
-        <div class="thread_container">
-          <div class="row thread_heading">
-            <div class="thread_body">
-              <a href="#" class="">{{board.subject}}</a>
-              <p>{{board.message}}</p>
-            </div>
-            <img src="/forum-image" alt="" class="pull-right">
-          </div>
-
-          <div class="thread_body row">
-            <a class="" href="/boards/{{board.fid}}"><img src="/boardimage" alt=""> {{board.username}}</a>
-            <p style="font-size:.75em;">{{board.boardject}}</p>
-            <p class="" style="text-align:left;"><span>{{board.message}}</span></p>
-            <p class="col-xs-1 " style="text-align:center;"><span>{{board.posts}}</span></p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
+  <div ng-repeat="forum in forums" class="">
+    <div class="" id="{{forum.pid}}">
+      <a class="col-sm-4" href="/forum/showthread?pid={{forum.firstpost}}"> {{forum.subject}}</a>
+
+      <span class="col-sm-1 col-sm-offset-2" style="text-align:center">{{forum.replies}}</span>
+
+      <span class="col-sm-1" style="text-align:center">{{forum.views}}</span>
+
+      <rating class="col-sm-2" ng-model="forum.rating" max="5" readonly="isReadonly"></rating>
+      <!-- <p class="" style="text-align:left;" ng-bind-html="forum.message | bbcode | findLinks | toTrusted"></p> -->
+      <br>
+      <p style="font-size:.75em;" class="col-sm-1">{{forum.username}}</p>
+      <p class="" style="text-align:center;"></p>
+      <br>
+    </div>  
   </div>
+</div>
+
+

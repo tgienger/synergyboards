@@ -15,9 +15,15 @@ angular.module('synergyApp')
         });
     });
 
+    $scope.getThreads = function(fid) {
+      $http.get('/api/boards/forum/showforum/' + fid).success(function(b) {
+        $scope.forums = b;
+      });
+    }
+
     $http.get('/api/boards').success(function(b) {
       streamForums.showForums($scope.boards || ($scope.boards = []), b);
-      console.log($scope.boards)
+      // console.log($scope.boards)
     });
 
     $scope.threads = threads;

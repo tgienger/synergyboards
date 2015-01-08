@@ -76,6 +76,20 @@ exports.getThread = function (req, res) {
   });
 };
 
+exports.getForum = function(req, res) {
+  var fid = req.params.fid;
+
+  if (!fid || isNaN(fid)) {
+    res.send(401);
+  }
+
+  db.query('SELECT * FROM synergyBoard.mybb_threads WHERE fid = ?', fid, function(err, results) {
+    if (err) throw err;
+    res.send(results);
+  });
+
+};  
+
 exports.findPost = function(req, res) {
 
   var pid = req.query.pid;

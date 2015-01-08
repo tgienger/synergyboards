@@ -24,6 +24,25 @@ $post-border-color: #454545;
   border-radius: $style;
 }
 
+@mixin transition($transition) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@mixin transform($transforms) {
+  -webkit-transform:$transforms;
+  -moz-transform:$transforms;
+  -ms-transform:$transforms;
+  -o-transform:$transforms;
+  transform:$transforms;
+}
+@mixin translate($x, $y) {
+  @include transform(translate($x, $y));
+}
+
 /**
  * App-wide Styles
  */
@@ -37,13 +56,18 @@ $post-border-color: #454545;
 .body_container {
   background: $body-color;
 }
+.pointer {
+  cursor: pointer;
+}
 
 // Component styles are injected through grunt
 // injector
 @import 'createPost/createPost.scss';
+@import 'forums/forums.scss';
 @import 'forumview/forumview.scss';
 @import 'main/main.scss';
 @import 'sceditor/sceditor.scss';
+@import 'threadView/threadView.scss';
 @import 'threads/threads.scss';
 @import 'modal/modal.scss';
 // endinjector

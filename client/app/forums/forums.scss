@@ -1,0 +1,25 @@
+.t_container {
+	margin-top: 30px;
+	overflow:hidden;
+}
+.shownClass {
+	position:'absolute';
+	left:'-50px';
+	z-index:'2';
+}
+.hiddenClass {
+
+}
+
+.threadHead {
+	@include transition(.4s ease-in-out);
+	height:40px;
+}
+
+.slideLeft {
+	@include translate(-50px, 0);
+	background: rgba(100,100,100,0.5);
+	border-radius: 5px;
+	box-shadow: 0 0 3px 5px rgba(40,40,40,0.8);
+	vertical-align: middle;
+}
