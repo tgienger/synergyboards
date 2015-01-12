@@ -59,6 +59,10 @@ $post-border-color: #454545;
 .pointer {
   cursor: pointer;
 }
+.stuck {
+  position: fixed;
+  top: 0;
+}
 
 // Component styles are injected through grunt
 // injector

@@ -23,7 +23,6 @@ angular.module('synergyApp')
 
     $http.get('/api/boards').success(function(b) {
       streamForums.showForums($scope.boards || ($scope.boards = []), b);
-      // console.log($scope.boards)
     });
 
     $scope.threads = threads;

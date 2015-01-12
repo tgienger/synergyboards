@@ -6,7 +6,15 @@ body {
 }
 .mainContainer {
   margin:auto;
-  max-width: 1000px;
+  /* max-width: 1000px; */
+  /* height: 100vh; */
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
+}
+.scrollContainer {
+  /* max-width: 1000px;
+  margin:auto;
+  overflow-x: hidden; */
 }
 .thing-form {
     margin: 20px 0;
