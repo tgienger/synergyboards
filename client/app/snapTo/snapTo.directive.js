@@ -18,8 +18,8 @@ angular.module('synergyApp')
       	 * @param  {number} y y position of clicked element
       	 * @param  {number} d duration of scroll animation
       	 */
-      	function scrollTo(y, d) {
-      		$('html, body').stop().animate({scrollTop: y}, d)
+      	function scrollTo(y, d, cb) {
+      		$('html, body').stop().animate({scrollTop: y}, d, cb ? cb : angular.noop)
       	}
 
       	// global stores current "top" position

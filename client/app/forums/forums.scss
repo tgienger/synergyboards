@@ -2,6 +2,7 @@
 // 	margin-top: 30px;
 // 	overflow:hidden;
 // }
+
 .shownClass {
 	position:'absolute';
 	left:'-50px';
@@ -21,6 +22,7 @@
 .forumTitle {
 	@include transition(.4s ease-in-out);
 	z-index: 2;
+	margin-bottom: 0px;
 	// line-height: 30px;
 }
 .forumDes {
