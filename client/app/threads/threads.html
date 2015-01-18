@@ -1,5 +1,5 @@
 <div  class="thread_container" collapse="!toggle.show">
-  <div class="inner_container">
+  <div scroll-only class="inner_container">
     <div class="row" style="font-size:.80em;">
       <p class="col-sm-4" style="text-align:center;">Subject</p>
       <p class="col-sm-1 col-sm-offset-2 text-center">Replies</p>
@@ -8,7 +8,7 @@
       <p class="col-sm-2 text-right">Last Post</p>
 
     </div>
-    <div ng-repeat="forum in forums" class="threads container">
+    <div ng-repeat="forum in forums" class="container">
       <div class="innerthread container" id="{{forum.pid}}">
         <div class="row">
           <a class="col-sm-4" href="/forum/showthread?pid={{forum.firstpost}}"> {{forum.subject}}</a>

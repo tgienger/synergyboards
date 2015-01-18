@@ -1,0 +1,169 @@
+#thread-container {margin:0; padding:0; list-style-type:none;}
+.thread {
+	min-height: 150px;
+    margin: 10px;
+	padding:3px;
+	margin-bottom: 25px;
+	border-radius: 2px;
+	/* width: 100%; */
+	padding-left: 10px;
+	padding-right: 10px;
+    background: $post-back-color;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
+	position:relative;
+    /* -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; */
+}
+.thread:before, .thread:after {
+	content:"";
+    position:absolute;
+    z-index:-1;
+    /* -webkit-box-shadow:0 -1px 10px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 -1px 10px rgba(0,0,0,0.8);
+    box-shadow:0 -1px 10px rgba(0,0,0,0.8); */
+    top:50%;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+.message-profile{
+	width: 150px;
+	color: $font-dark;
+}
+.message-profile p {
+	color: $font-dark;
+}
+.thread_message {
+	margin-top: 25px;
+	margin-bottom: 25px;
+	width: 100%;
+}
+.post-table {display:table;}
+.post-row {display:table-row;}
+.post-left {}
+.post-left,
+.post-middle,
+.post-right {
+	display: table-cell;
+	vertical-align: top;
+	min-height: 150px;
+}
+.message-content {}
+.reply_subject{color:$font-medium2;}
+.reply_user,
+.reply_message,
+.thread_starter,
+.thread_message,
+.thread_subject {
+    color: $font-dark;
+}
+.thread-inner{min-height: 125px;}
+.reply_message {
+    min-height: 200px;
+}
+.inner_container {
+	background: rgba(100,100,100,0.1);
+	min-height: unquote("calc(100vh - 70px)");
+	border-radius: 5px;
+	border-bottom: 2px solid silver;
+	border-top: 2px solid silver;
+
+}
+.forumCloser {
+	z-index: 1000;
+	height: 70px;
+	background: rgba(200,200,200,.8);
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.threads {
+	// padding-bottom: 10px;
+}
+.innerthread {
+
+}
+.thread-lastpost {
+	font-size: .9em;
+}
+.last-post-date {
+	font-size: .80em;
+}
+
+
+/* quoted posts */
+.quote {
+  /* background: rgba(250,250,250,0.3); */
+  padding: 5px;
+  border-radius: 2px;
+  color: $font-dark;
+  margin-bottom: 30px;
+}
+.quote_top {
+  /* background: rgba(0,0,0,0.3); */
+  /* height: 10px; */
+  /* padding:3px; */
+  width: 100%;
+  font-size: .75em;
+  color: $font-dark;
+  border-radius: 2px;
+}
+.quoted {
+    color: $font-dark;
+}
+.quote_link {
+
+}
+.quote_link:before {
+  content: "\f08e";
+}
+.quote_date {
+  text-align: right;
+  float: right;
+}
+.message_toolbar {
+	padding:7px;
+	width: 100%;
+	border-top: 1px solid #b0b0b0;
+
+	.btn-link {
+		font-weight: bold;
+		text-decoration:none;
+		color:black;
+	}
+	i {
+		color: black;
+		vertical-align: middle;
+	}
+}
+blockquote {
+	border-left:none;
+}
+blockquote:before {
+	content: "\f10d";
+    font-family: FontAwesome;
+    float: left;
+    margin-right: 10px;
+}
+blockquote:after {
+	content: "\f10e";
+	font-family: FontAwesome;
+
+}
+blockquote {
+	/* box-shadow: inset 0px 10px 40px rgba(0,0,0,.1); */
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,hsla(0,0%,0%,0)), color-stop(50%,hsla(0,0%,0%,.75)), color-stop(100%,hsla(0,0%,0%,0)));
+    background: -webkit-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
+    background:    -moz-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
+    background:     -ms-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
+    background:      -o-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
+    background:         linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
+}

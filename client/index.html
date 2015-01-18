@@ -20,6 +20,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
+    <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
@@ -31,11 +32,12 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="mainContainer">
-      <div class="header">header</div>
-      <div class="mainNav navbar">navbar</div>
-      <div ui-view=""></div>
-    </div>
+
+      <nav-bar></nav-bar>
+      <div id="container">
+          <div ui-view=""></div>
+      </div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -53,6 +55,7 @@
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
+      <script type="text/javascript" src="bower_components/showdown/compressed/showdown.js"></script>
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -63,13 +66,14 @@
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/showdown/src/showdown.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="app/bbcode/bbcode.service.js"></script>
+          <script src="app/bbcode/bbcode.filter.js"></script>
           <script src="app/createPost/createPost.directive.js"></script>
           <script src="app/findLinks/findLinks.filter.js"></script>
           <script src="app/forums/forums.directive.js"></script>
@@ -77,6 +81,9 @@
           <script src="app/forumview/forumview.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/markdown/markdown.directive.js"></script>
+          <script src="app/navBar/navBar.directive.js"></script>
+          <script src="app/scripts/helper.js"></script>
           <script src="app/scrollOnly/scrollOnly.directive.js"></script>
           <script src="app/snapTo/snapTo.directive.js"></script>
           <script src="app/streamForums/streamForums.service.js"></script>
@@ -89,9 +96,11 @@
           <!-- endinjector -->
         <!-- endbuild -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
-        <script type="text/javascript" src="minified/jquery.sceditor.bbcode.min.js"></script>
         <script type="text/javascript" src="vendor/jquery.waypoints.min.js"></script>
         <script type="text/javascript" src="vendor/sticky.min.js"></script>
         <script type="text/javascript" src="vendor/mousewheel.js"></script>
+        <script type="text/javascript" src="vendor/require.js"></script>
+        <script type="text/javascript" src="app/scripts/helper.js"></script>
+        <!-- <script type="text/javascript" src="vendor/lodash.js"></script> -->
 </body>
 </html>

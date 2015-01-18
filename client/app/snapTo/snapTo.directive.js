@@ -7,6 +7,7 @@ angular.module('synergyApp')
       scope: {elPos: '=', toggle: '='},
       link: function (scope, element, attrs) {
 
+        var bounceBack = false;
       	var toggle = false;
       	scope.$watch('toggle.show', function (d) {
       		toggle = d;
@@ -19,10 +20,10 @@ angular.module('synergyApp')
       	 * @param  {number} d duration of scroll animation
       	 */
       	function scrollTo(y, d, cb) {
-      		$('html, body').stop().animate({scrollTop: y}, d, cb ? cb : angular.noop)
+      		$('html, body').stop().animate({scrollTop: y}, d, (cb || angular.noop))
       	}
 
-      	// global stores current "top" position
+          	// global stores current "top" position
     		var lastScrollTop = 0;
 
     		// global storing current moving direction
@@ -36,7 +37,7 @@ angular.module('synergyApp')
     		var scrollDistance = 300;
 
     		// the duration for the initial "click" animation
-    		var initScrollDur = 1;
+    		var initScrollDur = 100;
 
     		// amount of time waited after scrolling has stopped
     		// - going too small causes jittering, 100 seems to
@@ -44,10 +45,10 @@ angular.module('synergyApp')
     		var scrollStopTimeout = 100;
 
 
-    		/**
-    		 * Binds this element to 'click'
-    		 * @param  {event} e)
-    		 */
+		/**
+		 * Binds this element to 'click'
+		 * @param  {event} e)
+		 */
       	element.bind('click', function(e) {
 
       		scope.elPos = element.offset().top;
@@ -60,19 +61,19 @@ angular.module('synergyApp')
           /**
            * Snap to current element
            */
-      		$(window).scroll(function() {
+      		$(window).bind('mousewheel', function(e, d) {
       			var winTop = $(window).scrollTop();
 	      		var docHeight = $(document).height();
 	      		var winHeight = $(window).height();
 
-	      		if (lastScrollTop >= winTop) {
+	      		if (d > 0) {
 	      			scrollDirection = 'up';
 	      		} else {
 	      			scrollDirection = 'down';
 	      		}
 
       			clearTimeout($.data(this, 'scrollTimer'));
-      			if (toggle) {
+      			if (toggle && bounceBack) {
 	      			$.data(this, 'scrollTimer', setTimeout(function() {
 	      				if (scope.elPos - winTop < -scrollDistance || scope.elPos - winTop > scrollDistance) {
 		      				clearTimeout($.data(this, 'scrollTimer'))

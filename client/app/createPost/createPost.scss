@@ -1,27 +1,48 @@
-#createpost {
-  /* color: \$font-color; */
-  /* background: \$post-back-color; */
-  @include box-sizing(border-box);
-  width: 100%;
-  max-width: 100%;
-}
-.sc-editor {
-  height: 200px;
-}
 
-.sceditor-container {
-  /* background: \$post-back-color; */
-  /* @include box-sizing(border-box); */
+/* Composer */
+.composer_container {
+	position: fixed;
+	bottom: 0;
 }
-
-.sceditor-container iframe,
-.sceditor-container textarea{
-  /* background: \$post-back-color; */
-  color: $font-color;
+.composer_header {
+	height: 10px;
+	position: absolute;
+	top:3px;
+	right:3px;
+	color: black;
+	text-align: right;
+	width: 100%;
 }
-
-.sceditor-toolbar {
-  /* height: 35px; */
-  background: $header-color;
-  color: $font-color;
+.composer {
+	width: 100%;
+	height: 275px;
+	border-top: 1px solid #a8a8a8;
+	padding: 3px;
+	position:relative;
+	background: $body-color;
+	color:black;
+}
+#text-input {
+	width: 49%;
+	height:200px;
+	/* float:left; */
+	border:0;
+	position:absolute;
+	top:28px;
+	left:3px;
+	resize: none;
+	/* color:black; */
+}
+#markdown-preview {
+	color: $font-dark;
+	overflow-y: scroll;
+	border-left: 0;
+	height: 200px;
+	width: 49%;
+	position:absolute;
+	top: 28px;
+	right: 3px;
+}
+#markdown-preview * {
+	color: $font-dark;
 }

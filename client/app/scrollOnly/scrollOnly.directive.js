@@ -10,13 +10,9 @@ angular.module('synergyApp')
         var height = element.height();
         // Get the scroll height of the element
         var scrollHeight = element.get(0).scrollHeight;
-        element.bind('click', function() {
-            console.log('height: ' + height)
-            console.log('scroll: ' + scrollHeight)
-        })
 
-        scope.$watch('toggle.show', function() {
-          if(scope.toggle.show) {
+        scope.$watch('composer.collapse', function() {
+          if(scope.composer.collapse) {
             element.bind('mousewheel', function(e, d) {
                 console.log(d)
                 if ((this.scrollTop === (scrollHeight - height) && d < 0) || (this.scrollTop === 0 && d > 0)) {

@@ -33,11 +33,11 @@ exports.id = function(req, res) {
 };
 
 
-exports.threadId = function(req, res) {
+exports.thread = function(req, res) {
 
   var id = req.params.id;
 
-  db.query('SELECT * FROM mybb_threads WHERE tid = ?', [id], function(err, data) {
+  db.query('SELECT * FROM mybb_posts WHERE tid = ?', [id], function(err, data) {
     if (err) throw err;
     res.send(data);
   });
@@ -88,7 +88,7 @@ exports.getForum = function(req, res) {
     res.send(results);
   });
 
-};  
+};
 
 exports.findPost = function(req, res) {
 

@@ -8,7 +8,7 @@ var router = express.Router();
 router.get('/', controller.index);
 router.get('/:id', controller.id);
 router.get('/threads', controller.threads);
-router.get('/threads/:id', controller.threadId);
+router.get('/thread/:id', controller.thread);
 router.get('/forum/showthread?', controller.getThread);
 router.get('/forum/showforum/:fid', controller.getForum);
 router.get('/findpost:id?', controller.findPost);

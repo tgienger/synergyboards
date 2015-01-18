@@ -5,16 +5,6 @@ angular.module('synergyApp')
     $scope.boards = [];
     var threads = [];
 
-
-    $(function() {
-        // Replace all textarea's
-        // with SCEditor
-        $("textarea").sceditor({
-            plugins: "bbcode",
-            style: "minified/jquery.sceditor.default.min.css"
-        });
-    });
-
     $scope.getThreads = function(fid) {
       $http.get('/api/boards/forum/showforum/' + fid).success(function(b) {
         $scope.forums = b;

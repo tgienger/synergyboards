@@ -1,3 +1,23 @@
-<div class="col-md-12">
-This is the threadView view.
-</div>
+<ul id="thread-container" class="">
+    <li ng-repeat="t in thread" class="thread">
+        <a id="post-anchor-{{$index}}" name="{{$index}}"></a>
+        <div class="row post-row">
+            <div class="col-md-12 thread-inner">
+                <div class="message-profile text-center hidden-xs post-left">
+                    <img src="#" alt="" class="">
+                    <p class="message_username">{{t.username}}</p>
+                </div>
+                <div class="message-content post-right">
+                    <h5 class="thread_subject">{{t.subject}}</h5>
+                    <p class="thread_message" ng-bind-html="t.message | bbcode | findLinks | toTrusted"></p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group message_toolbar">
+            <button class="btn btn-sm btn-link" ng-click="compose(t, 'post')"><i class="fa fa-comment"></i>&nbsp;post</button>
+            <button class="btn btn-sm btn-link" ng-click="compose(t, 'quote')"><i class="fa fa-quote-left"></i>&nbsp;quote</button>
+            <button class="btn btn-sm btn-link" ng-click="compose(t, 'reply')"><i class="fa fa-mail-reply"></i>&nbsp;reply</button>
+        </div>
+    </li>
+</ul>
+<create-post></create-post>

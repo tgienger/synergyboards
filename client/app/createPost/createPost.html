@@ -1,3 +1,9 @@
-<div class="create-post-container">
-  <textarea class="sc-editor" name="createpost" id="createpost" placeholder="reply to post ..."></textarea>
+
+<div ng-hide="composer.collapse" class="composer_container navbar-fixed-bottom">
+    <div class="composer">
+        <div class="composer-header"><i class="fa fa-close pointer" ng-click="closeComposer(true)"></i></div>
+        <textarea scroll-only class="well" name="" id="text-input" ng-model="composer.markdown"></textarea>
+        <div markdown="composer.markdown | bbcode"  id="markdown-preview" class="well preview"></div>
+    </div>
 </div>
+<!-- onchange="this.editor.update()" -->
