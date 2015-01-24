@@ -1,39 +1,19 @@
-<!-- <div ng-include="'components/navbar/navbar.html'"></div> -->
-<div class="container">
-  <div class="content">
+<breadcrumb snap-to></breadcrumb>
+<p style="margin-left:25px;">
+    <button ng-click="compose(forums[0])" class="btn btn-primary">New Post</button>
+    <button class="btn btn-success">Another Button</button>
+</p>
+<ul id="thread-container" class="">
+    <li class="thread">
+        <div class="row post-row">
+            <div class="col-md-12 thread-inner">
+                <div ng-repeat="f in forums" class="">
+                    <p style="font-weight:bold;" class="thread_subject"><a ui-sref="threadview({id: f.tid})">{{f.subject}}</a><br>
+                    <span style="color:black;font-size: 12px;">{{f.username}}</span></p>
+                </div>
 
-    <div class="threadContainer" ng-repeat="board in boards track by $index">
-      <div class="row body_container">
-
-        <div class="thread_container">
-          <div class="row thread_heading" id="{{board.pid}}">
-            <a href="#" class="">{{board.subject}}</a>
-            <div class="thread_body">
-              <a href=""><img src="/userimage" alt=""> {{board.username}}</a>
-              <p ng-bind-html="board.message | bbcode | findLinks | toTrusted"></p>
             </div>
-            <!-- <img src="/forum-image" alt="" class="pull-right"> -->
-          </div>
-
-          <div class="thread_body row" ng-repeat="sub in board.replies" id="{{sub.pid}}">
-            <a class="" href="/boards/{{sub.fid}}"><img src="/userimage" alt=""> {{sub.username}}</a>
-            <p style="font-size:.75em;">{{sub.subject}}</p>
-            <p class="" style="text-align:left;" ng-bind-html="sub.message | bbcode | findLinks | toTrusted"></p>
-            <p class="col-xs-1 " style="text-align:center;"><span>{{sub.posts}}</span></p>
-          </div>
-
-
-          <create-post></create-post>
-
         </div>
-      </div>
-    </div>
-  </div>
-  <footer class="footer">
-    <div class="container">
-      <p> Synergy Boards v0.1.0 |
-        <a href="#">@tgienger</a> |
-        <a href="#">Issues</a></p>
-      </div>
-    </footer>
-  </div>
+    </li>
+</ul>
+<create-post></create-post>

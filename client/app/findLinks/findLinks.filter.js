@@ -1,44 +1,57 @@
-'use strict';
+(function () {
 
-angular.module('synergyApp')
-  .filter('findLinks', function () {
+    'use strict';
 
-    var rx_url = /(?:^|\s|\n|\r|\<br\>)((?:http|ftp|https):\/\/(?:[\w\-_]+(?:(?:\.[\w\-_]+)+))(?:[\w\-\.,@?^=%&amp;:/~\+\!#]*[\w\-\@?^=%&amp;/~\+#]))/ig;
-    var rx_img_url = /(\shttps?:\/\/.*\.(png|jpg|gif))/ig;
-    var fix_embed = /((?:https|http):)\/\/(?:[^"]*)(watch\?v=)/;
-    var rx_youtube = /(?:\shttps?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/ig;
+    angular.module('synergyApp')
+        .filter('findLinks', function () {
 
-    /**
-     * [replacer description]
-     * @type {Object}
-     */
-    var replacer = {
-      image: function(match, p1, p2, offset, string) {
-        return '<img src="'+match+'" />';
-      },
-      youtube: function(match, p1, p2, offset, string) {
-        return '<iframe width="560" height="315" src="'+match+'" frameborder="0" allowfullscreen></iframe>';
-      },
-      url: function(match, p1, p2, offset, string) {
-        return '<a href="'+p1+'">'+p1+'</a>';
-      }
-    }
+            /**
+             * [replacer description]
+             * @type {Object}
+             */
+            function Replacer() {
+                return {
+                    image: function (match) {
+                        return '<img src="' + match + '" />';
+                    },
+                    youtube: function (match) {
+                        return '<iframe width="560" height="315" src="' + match + '" frameborder="0" allowfullscreen></iframe>';
+                    },
+                    url: function (match) {
+                        if (match === '\n') {
+                            return '<br>';
+                        }
+                        if (match === '\r') {
+                            return '';
+                        }
+                        return '<a href="' + match + '">' + match + '</a>';
+                    }
+                };
+            }
 
-    function parseUrl(str) {
-      if (rx_youtube.test(str)) {
-        return str.replace(rx_youtube, replacer.youtube);
-      }
-      if (rx_img_url.test(str)) {
-        return str.replace(rx_img_url, replacer.image);
-      }
-      if (rx_url.test(str)) {
-        return str.replace(rx_url, replacer.url);
-      }
-      return str;
+            var rx_url = /([\r\n])/g,
+                rx_img_url = /(\shttps?:\/\/.*\.(png|jpg|gif))/ig,
+                // fix_embed = /((?:https|http):)\/\/(?:[^"]*)(watch\?v=)/g,
+                rx_youtube = /(?:\shttps?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/g,
+                replacer = new Replacer();
 
-    }
 
-    return function (input) {
-      return parseUrl(input);
-    };
-  });
+            function parseUrl(str) {
+                if (rx_youtube.test(str)) {
+                    return str.replace(rx_youtube, replacer.youtube);
+                }
+                if (rx_img_url.test(str)) {
+                    return str.replace(rx_img_url, replacer.image);
+                }
+                if (rx_url.test(str)) {
+                    return str.replace(rx_url, replacer.url);
+                }
+                return str;
+
+            }
+
+            return function (input) {
+                return parseUrl(input);
+            };
+        });
+}());

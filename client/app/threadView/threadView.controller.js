@@ -1,61 +1,116 @@
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('synergyApp')
-.controller('ThreadViewCtrl', function ($scope, $http, streamForums, $stateParams) {
-    $http.get('/api/boards/thread/'+ $stateParams.id).success(function(b) {
-        $scope.thread = $scope.thread || [];
-        // $scope.thread = b;
-        streamForums.showThread($scope.thread || ($scope.thread = []), b);
-    });
+    angular.module('synergyApp')
+    .controller('ThreadViewCtrl', function ($scope, $http, streamForums, $stateParams) {
 
-    var composer = {
-        markdown: '',
-        thread: {},
-        collapse: true,
-    };
+        $http.get('/api/boards/thread/'+ $stateParams.id).success(function(b) {
+            // $scope.maximized = false;
+            $scope.thread = $scope.thread || [];
+            streamForums.showThread($scope.thread || ($scope.thread = []), b);
+            $scope.breadcrumbs = [
+                {name: 'Home', url: 'main'},
+                {name: $scope.thread[0].grand_parent, url: 'forumview({id: thread[0].fid})'},
+                {name: $scope.thread[0].subject, url: null},
+            ];
+        });
 
-    $scope.composer = composer;
+        function Composer() {
 
-    $scope.closeComposer = function(exit) {
-        if (exit) {
-            composer.markdown = '';
+            return {
+                markdown: '',
+                subject: '',
+                topic: '',
+                markdown_list: [],
+                thread: {},
+                collapse: true,
+                submit: 'Post',
+                removeEmpty: function(arr, removed) {
+                    var index = -1;
+                    var length = arr ? arr.length : 0;
+                    var array = arr;
+
+                    while (++index < length) {
+                        if (array[index] == removed) {
+                            array.splice(index, 1);
+                            index--
+                        }
+                    }
+                    return array;
+                },
+                toQuote: function() {
+                    var quoted = this.thread.username;
+                    var str = this.thread.message.split('\n');
+                    str = this.removeEmpty(str, false);
+
+                    for (var i = 0; i < str.length; i++) {
+                        str[i] = '>'+str[i];
+                    }
+                    var quote = str.join('\n\n');
+
+                    switch (this.markdown_list.length) {
+                        case 0:
+                            quote = quote + '\n\n';
+                            break;
+                        default:
+                            quote = '\n\n' + quote + '\n\n';
+                            break;
+                    }
+                    return quoted + ': \n' + quote;
+                },
+                toReply: function() {
+                    if (this.markdown_list.length > 0) {
+                        return '\n\n@' + this.thread.username + ':\n\n';
+                    }
+                    return '@' + this.thread.username + ':\n\n';
+                },
+                build: function(type) {
+                    switch(type) {
+                        case 'quote':
+                            return this.toQuote();
+
+                        case 'reply':
+                            return this.toReply();
+
+                        default:
+                            return;
+                    }
+                }
+
+            };
         }
-        composer.collapse = true;
-    }
 
-    /**
-     * removes new lines, prepends quote character
-     * @return {string} quoted text
-     */
-    function createMessage(c, type)
-    {
-        switch(type) {
-            case 'quote':
-                var quoted = c.thread.username;
+        var composer = new Composer();
 
-                var str = c.thread.message.split('\n');
-                str = sx.array.remove(str, false);
-                var quote = str.quote(quoted);
-                return c.markdown += quote;
-            case 'reply':
-                return c.markdown += c.thread.username;
-            default:
-                return c.markdown;
-        }
-    }
+        $scope.composer = composer;
 
-    $scope.compose = function(thread, type)
-    {
-        if (!composer.thread) {
+        $scope.closeComposer = function(exit) {
+            if (exit) {
+                composer.markdown_list = [];
+            }
             composer.collapse = true;
         }
-        else {
-            composer.collapse = false;
+
+        $scope.compose = function(thread, type)
+        {
+            if (!composer.thread) {
+                composer.collapse = true;
+            }
+            else {
+                composer.collapse = false;
+            }
+
+            composer.thread = thread;
+            composer.topic = thread.grand_parent;
+            if (type === 'reply' || type === 'quote') {
+                composer.subject = 'RE: ' + thread.subject;
+            } else {
+                composer.subject = 'RE: ' + $scope.thread[0].subject;
+            }
+            composer.markdown_list.push(composer.build(type));
+            composer.markdown = composer.markdown_list.join('\n')
+            // $scope.composer.collapse = !$scope.composer.collapse;
         }
 
-        composer.thread = thread;
-        composer.markdown = createMessage(composer, type);
-        // $scope.composer.collapse = !$scope.composer.collapse;
-    }
-
-});
+    });
+}());

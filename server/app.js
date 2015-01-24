@@ -4,10 +4,6 @@
 
 'use strict';
 var bbcode = require('bbcode');
-var myString = '[b]bold[/b], [i]italic[/i]';
-bbcode.parse(myString, function(content) {
-  console.log(content);
-});
 
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';

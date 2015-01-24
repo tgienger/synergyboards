@@ -1,3 +1,5 @@
+<div style="height: 38px;" ng-show="toggleOff"></div>
+<breadcrumb id="breadID" snap-to bounceBack="true" ng-hide="toggleOff" offset="40"></breadcrumb>
 <ul id="thread-container" class="">
     <li ng-repeat="t in thread" class="thread">
         <a id="post-anchor-{{$index}}" name="{{$index}}"></a>

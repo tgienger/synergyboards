@@ -55,7 +55,7 @@ angular.module('synergyApp')
             } else if (p2 && p2.length) {
               return '<span class="quoted">'+p2+' wrote: </span><blockquote class="quote"> '+p7+'</blockquote>';
             } else {
-              '<blockquote class="quote"> '+p7+'</blockquote>';
+              return '<blockquote class="quote"> '+p7+'</blockquote>';
             }
 
           case 'video':
@@ -64,7 +64,9 @@ angular.module('synergyApp')
                 p7 = p7.replace(yt_link_re, '<iframe width="560" height="315" src="//www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>')
                 return p7;
               }
-            }
+          } else {
+              return;
+          }
 
           case 'b':
             return '<b>' + p7 + '</b>';
@@ -95,9 +97,21 @@ angular.module('synergyApp')
      * @return {string}     parsed html
      */
     function bbc2html(str) {
-      if (!str || !str.length) return str;
+        if (typeof str === 'object') {
+            str.forEach(function(s) {
+                if(!s || !s.length) {
+                    s = s;
+                }
+                else{
+                    s = s.replace(find_tags_re,replacer);
+                }
+            })
+        } else {
+            if (!str || !str.length) return str;
 
-      str = str.replace(find_tags_re, replacer)
+            str = str.replace(find_tags_re, replacer)
+
+        }
 
       return str;
     }

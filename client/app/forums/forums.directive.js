@@ -7,9 +7,7 @@ angular.module('synergyApp')
       restrict: 'EA',
       scope: {boards: '='},
       link: function (scope, element, attrs) {
-          scope.show = function(sub) {
-              console.log(sub);
-          }
+
       },
     };
   });

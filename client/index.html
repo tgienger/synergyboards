@@ -35,6 +35,8 @@
 
       <nav-bar></nav-bar>
       <div id="container">
+          <!-- <div ncy-breadcrumb></div> -->
+          <!-- <breadcrumb></breadcrumb> -->
           <div ui-view=""></div>
       </div>
 
@@ -69,11 +71,13 @@
       <script src="bower_components/showdown/src/showdown.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+      <script src="bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
           <script src="app/bbcode/bbcode.filter.js"></script>
+          <script src="app/breadcrumb/breadcrumb.directive.js"></script>
           <script src="app/createPost/createPost.directive.js"></script>
           <script src="app/findLinks/findLinks.filter.js"></script>
           <script src="app/forums/forums.directive.js"></script>
@@ -83,6 +87,8 @@
           <script src="app/main/main.js"></script>
           <script src="app/markdown/markdown.directive.js"></script>
           <script src="app/navBar/navBar.directive.js"></script>
+          <script src="app/phonehidden/phonehidden.directive.js"></script>
+          <script src="app/resizeable/resizeable.directive.js"></script>
           <script src="app/scripts/helper.js"></script>
           <script src="app/scrollOnly/scrollOnly.directive.js"></script>
           <script src="app/snapTo/snapTo.directive.js"></script>
@@ -101,6 +107,7 @@
         <script type="text/javascript" src="vendor/mousewheel.js"></script>
         <script type="text/javascript" src="vendor/require.js"></script>
         <script type="text/javascript" src="app/scripts/helper.js"></script>
+        <!-- <script type="text/javascript" src="vendor/rangyinputs.js"></script> -->
         <!-- <script type="text/javascript" src="vendor/lodash.js"></script> -->
 </body>
 </html>

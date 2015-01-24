@@ -37,7 +37,7 @@ exports.thread = function(req, res) {
 
   var id = req.params.id;
 
-  db.query('SELECT * FROM mybb_posts WHERE tid = ?', [id], function(err, data) {
+  db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = ?)) AS grand_parent FROM mybb_posts WHERE tid = ?;', [id,id], function(err, data) {
     if (err) throw err;
     res.send(data);
   });
@@ -77,13 +77,13 @@ exports.getThread = function (req, res) {
 };
 
 exports.getForum = function(req, res) {
-  var fid = req.params.fid;
+  var id = req.params.id;
 
-  if (!fid || isNaN(fid)) {
+  if (!id || isNaN(id)) {
     res.send(401);
   }
 
-  db.query('SELECT * FROM synergyBoard.mybb_threads WHERE fid = ?', fid, function(err, results) {
+  db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = ?) AS parent FROM synergyBoard.mybb_threads WHERE fid = ?;', [id,id], function(err, results) {
     if (err) throw err;
     res.send(results);
   });

@@ -4,8 +4,8 @@
             <div class="thread">
                 <h4 style="color:black;text-align:center;">{{board.name}}</h4>
                 <ul ng-repeat="sub in board.replies">
-                    <li ng-click="show(sub)" class="pointer"><p style="color:black;">{{sub.name}}</p></li>
-                    <li><a ui-sref="threadView({id: sub.lastposttid})">{{sub.lastpostsubject}}</a></li>
+                    <li class="pointer"><a ui-sref="forumview({id: sub.fid})">{{sub.name}}</a></li>
+                    <li><a ui-sref="threadview({id: sub.lastposttid})">{{sub.lastpostsubject}}</a></li>
                     <li>{{sub.lastposter}}</li>
                 </ul>
             </div>

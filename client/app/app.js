@@ -6,6 +6,7 @@ angular.module('synergyApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
+  'ncy-angular-breadcrumb',
   'ui',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
