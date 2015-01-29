@@ -3,17 +3,17 @@
     <div class="composer">
 
         <!-- <div class="composer-header pull-right"><i class="fa fa-minus pointer" ng-click="closeComposer(false)"></i>&nbsp;<i class="fa fa-close pointer" ng-click="closeComposer(true)"></i>&nbsp;</div> -->
-        <!-- <div id="dragbar" resizeable max="" min="">
+        <div id="dragbar" resizeable max="" min="">
             <i class="fa fa-bars drag-center"></i>
-            <span class="drag-click-right">
+            <!-- <span class="drag-click-right">
                 <i class="fa fa-chevron-up"></i>
-            </span>
-        </div> -->
+            </span> -->
+        </div>
 
-        <button id="preview-button"><img src="assets/images/magnifier12.svg" alt="magnifying glass" width="20px"></button>
+        <!-- <button id="preview-button"><img src="assets/images/magnifier12.svg" alt="magnifying glass" width="20px"></button> -->
 
         <div class="composer_info">
-            <input id="composer_subject" ng-if="composer.subject.length" type="text" ng-model="composer.subject">
+            <input id="composer_subject" type="text" ng-model="composer.subject" placeholder="subject: ">
             <div phone-hidden="phone" class="" id="title">Creating in: {{composer.topic}}</div>
 
         </div>

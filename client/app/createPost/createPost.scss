@@ -1,201 +1,201 @@
 
 /* Composer */
 .composer_container {
-	position: fixed;
-	bottom: 0;
+    position: fixed;
+    bottom: 0;
 }
 .composer_header {
-	height: 10px;
-	position: absolute;
-	top:3px;
-	right:3px;
-	color: black;
-	text-align: right;
-	width: 100%;
+    height: 10px;
+    position: absolute;
+    top:3px;
+    right:3px;
+    color: black;
+    text-align: right;
+    width: 100%;
 }
 .composer {
-	width: 100%;
-	height: 275px;
-	padding: 3px;
-	padding-top: 0;
-	position:relative;
-	background: #acacac;
-	/* box-shadow: 0 -2px 15px -3px rgba(0,0,0,0.75); */
-	color:black;
+    width: 100%;
+    height: 350px;
+    padding: 3px;
+    padding-top: 0;
+    position:relative;
+    background: #acacac;
+    /* box-shadow: 0 -2px 15px -3px rgba(0,0,0,0.75); */
+    color:black;
 }
 .composer_info {
-	height: 30px;
-	width: 100%;
-	position: absolute;
-	top: 15px;
-	left:0;
-	/* padding-left: 10px; */
-	input {
-		background: rgba(300, 300, 300, 1);;
-	}
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    top: 15px;
+    left:0;
+    /* padding-left: 10px; */
+    input {
+        background: rgba(300, 300, 300, 1);;
+    }
 
-	input,
-	div {
-		float:left;
-		padding: 3px;
-		color: $font-dark;
-		margin-left: 10px;
-		width: -moz-calc(50% - 15px);
-		width: -webkit-calc(50% - 15px);
-		width: -o-calc(50% - 15px);
-		width: calc(50% - 15px);
-	}
+    input,
+    div {
+        float:left;
+        padding: 3px;
+        color: $font-dark;
+        margin-left: 10px;
+        width: -moz-calc(50% - 15px);
+        width: -webkit-calc(50% - 15px);
+        width: -o-calc(50% - 15px);
+        width: calc(50% - 15px);
+    }
 
 }
 #markdown_container {
-	position: absolute;
-	top:50px;
-	width: 100%;
-	height: -moz-calc(100% - 89px);
-	height: -webkit-calc(100% - 89px);
-	height: -o-calc(100% - 89px);
-	height: calc(100% - 89px);
-	left: 0;
+    position: absolute;
+    top:50px;
+    width: 100%;
+    height: -moz-calc(100% - 89px);
+    height: -webkit-calc(100% - 89px);
+    height: -o-calc(100% - 89px);
+    height: calc(100% - 89px);
+    left: 0;
 }
 #dragbar {
-	height: 12px;
-	margin:auto;
-	cursor: ns-resize;
-	position:relative;
+    height: 12px;
+    margin:auto;
+    cursor: ns-resize;
+    position:relative;
 
-	.drag-center {
-		width: 100%;
-		text-align:center;
-		display:inline-block;
-		transform:scale(2,.4); /* W3C */
-		-webkit-transform:scale(2,.4); /* Safari and Chrome */
-		-moz-transform:scale(2,.4); /* Firefox */
-		-ms-transform:scale(2,.4); /* IE 9 */
-		-o-transform:scale(2,.4);
-		padding-bottom: 3px;
-		color:gray;
-	}
+    .drag-center {
+        width: 100%;
+        text-align:center;
+        display:inline-block;
+        transform:scale(2,.4); /* W3C */
+        -webkit-transform:scale(2,.4); /* Safari and Chrome */
+        -moz-transform:scale(2,.4); /* Firefox */
+        -ms-transform:scale(2,.4); /* IE 9 */
+        -o-transform:scale(2,.4);
+        padding-bottom: 3px;
+        color:gray;
+    }
 
-	.drag-center,
-	.drag-click-left {
-		vertical-align: top;
-		line-height: 12px;
-	}
+    .drag-center,
+    .drag-click-left {
+        vertical-align: top;
+        line-height: 12px;
+    }
 
-	.drag-click-right,
-	.drag-click-left {
-		position: absolute;
-		top: 2px;
-		font-size: .75em;
-		color: $font-dark;
+    .drag-click-right,
+    .drag-click-left {
+        position: absolute;
+        top: 2px;
+        font-size: .75em;
+        color: $font-dark;
 
-		span,
-		i {
-			color: $font-dark;
-		}
-	}
+        span,
+        i {
+            color: $font-dark;
+        }
+    }
 
-	.drag-click-right {
-		right:0;
-	}
+    .drag-click-right {
+        right:0;
+    }
 }
 #textarea_container {
-	height: -moz-calc(100% - 25px);
-	height: -webkit-calc(100% - 25px);
-	height: -o-calc(100% - 25px);
-	height: calc(100% - 25px);
-	height: 100%;
-	width: 50%;
-	float:left;
-	position:relative;
+    height: -moz-calc(100% - 25px);
+    height: -webkit-calc(100% - 25px);
+    height: -o-calc(100% - 25px);
+    height: calc(100% - 25px);
+    height: 100%;
+    width: 50%;
+    float:left;
+    position:relative;
 
-	#text-toolbar {
-		height: 25px;
-		padding:2px;
-		padding-left: 4px;
-		line-height: 24px;
-		font-size: .9em;
-		width: 100%;
-		border: none;
-		border-radius:0;
-		margin-right: 5px;
-		margin-left: 10px;
-		width: -moz-calc(100% - 15px);
-		width: -webkit-calc(100% - 15px);
-		width: -o-calc(100% - 15px);
-		width: calc(100% - 15px);
-	}
+    #text-toolbar {
+        height: 25px;
+        padding:2px;
+        padding-left: 4px;
+        line-height: 24px;
+        font-size: .9em;
+        width: 100%;
+        border: none;
+        border-radius:0;
+        margin-right: 5px;
+        margin-left: 10px;
+        width: -moz-calc(100% - 15px);
+        width: -webkit-calc(100% - 15px);
+        width: -o-calc(100% - 15px);
+        width: calc(100% - 15px);
+    }
 
-	#text-input {
-		position:absolute;
-		top:25px;
-		height: -moz-calc(100% - 25px);
-		height: -webkit-calc(100% - 25px);
-		height: -o-calc(100% - 25px);
-		height: calc(100% - 25px);
-		/* height:100%; */
-		border:0;
-		border-radius: 0;
-		resize: none;
-		margin-right: 5px;
-		margin-left: 10px;
-		width: -moz-calc(100% - 15px);
-		width: -webkit-calc(100% - 15px);
-		width: -o-calc(100% - 15px);
-		width: calc(100% - 15px);
-		color:$font-dark;
-	}
+    #text-input {
+        position:absolute;
+        top:25px;
+        height: -moz-calc(100% - 25px);
+        height: -webkit-calc(100% - 25px);
+        height: -o-calc(100% - 25px);
+        height: calc(100% - 25px);
+        /* height:100%; */
+        border:0;
+        border-radius: 0;
+        resize: none;
+        margin-right: 5px;
+        margin-left: 10px;
+        width: -moz-calc(100% - 15px);
+        width: -webkit-calc(100% - 15px);
+        width: -o-calc(100% - 15px);
+        width: calc(100% - 15px);
+        color:$font-dark;
+    }
 }
 #preview_container {
-	height: 100%;
-	width: 50%;
-	float:left;
+    height: 100%;
+    width: 50%;
+    float:left;
 
-	#markdown-preview {
-		color: $font-dark;
-		border:0;
-		border-radius: 0;
-		overflow-y: scroll;
-		border-left: 0;
-		height: 100%;
-		margin-left: 5px;
-		width: -moz-calc(100% - 15px);
-		width: -webkit-calc(100% - 15px);
-		width: -o-calc(100% - 15px);
-		width: calc(100% - 15px);
-	}
+    #markdown-preview {
+        color: $font-dark;
+        border:0;
+        border-radius: 0;
+        overflow-y: scroll;
+        border-left: 0;
+        height: 100%;
+        margin-left: 5px;
+        width: -moz-calc(100% - 15px);
+        width: -webkit-calc(100% - 15px);
+        width: -o-calc(100% - 15px);
+        width: calc(100% - 15px);
+    }
 }
 #markdown-preview a {
-	color: #008eee;
+    color: #008eee;
 }
 #markdown-preview a:hover{
-	text-decoration: underline;
+    text-decoration: underline;
 }
 #markdown_container * {
-	color: $font-dark;
+    color: $font-dark;
 }
 #composer_footer {
-	position: absolute;
-	bottom: 4px;;
-	width: 100%;
-	text-align: center;
-	left:0;
+    position: absolute;
+    bottom: 4px;;
+    width: 100%;
+    text-align: center;
+    left:0;
 }
 .post-button {
-	width: 150px;
+    width: 150px;
 }
 .splitter {
-	width: 3px;
-	height: 100%;
-	float:left;
-	background:red;
+    width: 3px;
+    height: 100%;
+    float:left;
+    background:red;
 }
 #preview-button {
-	float:right;
-	width: 50px;
-	height: 40px;
-	border-radius: 5px;
-	z-index: 1000;
+    float:right;
+    width: 50px;
+    height: 40px;
+    border-radius: 5px;
+    z-index: 1000;
 }
 
 /* Animation */
