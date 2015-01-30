@@ -1,20 +1,25 @@
 'use strict';
 
-angular.module('synergyApp')
-    .directive('createPost', function () {
+angular.module('synergy.composer', [])
+    .controller('CreatePostCtrl', ['$scope', function( $scope ) {
 
-        function textConstructor(mod, el) {
+
+        this.composer = function(el) {
+
+            var mod;
             /**
              * is text already modded?
              * @type {Boolean}
              */
             var modded = false,
                 currentMod,
+
                 /**
                  * Holds the selected TEXT
                  * @type {Object}
                  */
                 selected,
+                // is it a url modifier?
                 url = false,
 
                 /**
@@ -31,14 +36,10 @@ angular.module('synergyApp')
                 '1. SAMPLE'
             ];
 
-            if (mod === mods[2]) {
-                url = true;
-            }
-
             /**
              * Tests string for markdown modifications
              */
-            function test() {
+            var test = function() {
                 if (selected.text) {
                     var pattern = new RegExp('SAMPLE', 'g');
                     var testArray = [];
@@ -80,12 +81,12 @@ angular.module('synergyApp')
                 }
 
                 return modded;
-            }
+            };
 
             /**
              * gets the selected text within the textarea element
              */
-            function getSelection() {
+            var getSelection = function() {
                 var textComponent = el,
                     selectedText,
                     sel,
@@ -110,24 +111,25 @@ angular.module('synergyApp')
                     selectedText = textComponent.value.substring(startPos, endPos);
                 }
                 return setSelected(startPos, endPos, selectedText);
-            }
+            };
 
             /**
              * removes markdown modification
              */
-            function unMod() {
+            var unMod = function(cb) {
                 var newText = selected.text;
                 var oldText = currentMod;
                 var modFront = selected.start - oldText.indexOf(newText);
                 var modBack = modFront + oldText.length;
                 el.value = el.value.slice(0, modFront) + selected.text + el.value.slice(modBack);
                 modded = false;
-            }
+                (cb || angular.noop)();
+            };
 
             /**
              * adds markdown modification
              */
-            function addMod(cb) {
+            var addMod = function(cb) {
                 function setText(txt) {
                     el.value = txt;
                     modded = true;
@@ -139,7 +141,7 @@ angular.module('synergyApp')
                 if (url) {
                     alertify.prompt('Enter URL', function(e,s){
                         if (e) {
-                            if (s.startsWith('http://')) {
+                            if (s.startsWith('http://') || s.startsWith('https://')) {
                                 http = s;
                             } else {
                                 http = 'http://' + s;
@@ -159,24 +161,25 @@ angular.module('synergyApp')
                     mod = mod.replace(reg, selected.text);
                     setText(el.value.slice(0, selected.start) + mod + el.value.slice(selected.end));
                     selectIt();
+                    (cb || angular.noop)();
                 }
 
-            }
+            };
 
             /**
-             * If no text is selected, send in the default text 'TEXT HERE'
+             * If no text is selected, send in the default text 'placeholder text'
              */
-            function noSelect(cb) {
-                selected.text = 'placeholder';
+            var noSelect = function(cb) {
+                selected.text = 'placeholder text';
                 mod = mod.replace(/SAMPLE/g, selected.text);
                 addMod(cb);
-            }
+            };
 
             /**
              * Once modification is complete, re-select text
              * between the markdown modifiers
              */
-            function selectIt() {
+            var selectIt = function() {
                 var index = 1,
                     text,
                     modIndex,
@@ -193,18 +196,36 @@ angular.module('synergyApp')
                 // el.selectionStart = index;
                 // el.selectionEnd = selected.text.length + index;
                 setSelectionRange(el, index, selected.text.length + index);
-            }
+            };
+
+
+            // close the composer - keeping the content intact.
+            var close = function(cb) {
+                $scope.composer.collapse = true;
+                (cb || angular.noop)();
+            };
+
 
             /**
              * Starts the markdown process
              */
-             function create(cb) {
+            var create = function(m, cb) {
+
+                mod = m;
+                selected = getSelection();
+
+                 if (mod === mods[2]) {
+                     url = true;
+                 } else {
+                     url = false;
+                 }
+
                 if (selected.text) {
                     if (test()) {
                         if (url) {
 
                         } else {
-                            unMod();
+                            unMod(cb);
                             selectIt();
                         }
                     } else {
@@ -215,87 +236,118 @@ angular.module('synergyApp')
                     noSelect(cb);
                     selectIt();
                 }
-            }
+            };
 
-            selected = getSelection();
+
+
+
+            /**
+             * Sets the selection within the textarea, set starting and ending point
+             * to same location for caret placement.
+             * @param {Object} input          Your text input/textarea
+             * @param {number} selectionStart starting point of your selection
+             * @param {number} selectionEnd   ending point of your selection
+             */
+            var setSelectionRange = function(input, selectionStart, selectionEnd) {
+                if (input.setSelectionRange) {
+                    input.focus();
+                    input.setSelectionRange(selectionStart, selectionEnd);
+                }
+                else if (input.createTextRange) {
+                    var range = input.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', selectionEnd);
+                    range.moveStart('character', selectionStart);
+                    range.select();
+                }
+            };
+
+
+
+            /**
+             * Creates a new line below current and
+             * moves caret to the beginning of the new line.
+             * @param {Object} el Text element
+             */
+            var advanceToNewLine = function(cb) {
+
+                var currentPosition = el.selectionStart,
+                    lines = el.value.substr(0).split('\n'),
+                    lineNumber = el.value.substr(0, el.selectionStart).split('\n').length - 1,
+                    currentTotalLength = 0,
+                    index = -1,
+                    length = lines.length;
+
+                // Count the number of characters from the start to the end of the
+                // line where the caret currently resides.
+                while (++index < length) {
+                    currentTotalLength += lines[index].length > 0 ? lines[index].length + 1 : 1;
+                    if (index === lineNumber) {
+                        break;
+                    }
+                }
+
+                // Current position of the caret
+                currentPosition += (currentTotalLength - currentPosition);
+                lines[lineNumber] = lines[lineNumber] + '\n';
+
+                // reset the value of the textarea to include the newly added
+                // blank line.
+                el.value = lines.join('\n');
+                // sets the cursor to the beginning of the newly created empty line.
+                setSelectionRange(el, currentPosition, currentPosition);
+                (cb || angular.noop)();
+            };
+
+
+
+            /**
+             * Create a new line abover current line
+             * and move caret to beginning of new line.
+             * @param {Object} el Text element
+             */
+            var previousLine = function(cb) {
+                var currentPosition = el.selectionStart,
+                    currentTotalLength = 0,
+                    lines = el.value.substr(0).split('\n'),
+                    lineNumber = el.value.substr(0, el.selectionStart).split('\n').length - 1,
+                    index = -1,
+                    length = lines.length;
+                while (++index < length) {
+                    currentTotalLength += lines[index].length > 0 ? lines[index].length + 1 : 1;
+                    if (index === lineNumber) {
+                        break;
+                    }
+                }
+                currentPosition -= (lines[lineNumber].length + 1) - (currentTotalLength - currentPosition);
+                lines[lineNumber] = '\n' + lines[lineNumber];
+                el.value = lines.join('\n');
+                setSelectionRange(el, currentPosition, currentPosition);
+                (cb || angular.noop)();
+            };
+
 
             return Object.freeze({
                 create: create,
-                getSelection: getSelection
+                close: close,
+                advanceToNewLine: advanceToNewLine,
+                previousLine: previousLine
             });
-        }
+        };
 
-        function setSelectionRange(input, selectionStart, selectionEnd) {
-            if (input.setSelectionRange) {
-                input.focus();
-                input.setSelectionRange(selectionStart, selectionEnd);
-            }
-            else if (input.createTextRange) {
-                var range = input.createTextRange();
-                range.collapse(true);
-                range.moveEnd('character', selectionEnd);
-                range.moveStart('character', selectionStart);
-                range.select();
-            }
-        }
-
-        /**
-         * Creates a new line below current and
-         * moves caret to the beginning of the new line.
-         * @param {Object} el Text element
-         */
-        function advanceToNewLine(el) {
-
-            var currentPosition = el.selectionStart,
-                lines = el.value.substr(0).split('\n'),
-                lineNumber = el.value.substr(0, el.selectionStart).split('\n').length - 1,
-                currentTotalLength = 0,
-                index = -1,
-                length = lines.length;
-
-            while (++index < length) {
-                currentTotalLength += lines[index].length > 0 ? lines[index].length + 1 : 1;
-                if (index === lineNumber) {
-                    break;
-                }
-            }
-
-            currentPosition += (currentTotalLength - currentPosition);
-            lines[lineNumber] = lines[lineNumber] + '\n';
-
-            el.value = lines.join('\n');
-            setSelectionRange(el, currentPosition, currentPosition);
-        }
-
-        /**
-         * Create a new line abover current line
-         * and move caret to beginning of new line.
-         * @param {Object} el Text element
-         */
-        function previousLine(el) {
-            var currentPosition = el.selectionStart,
-                currentTotalLength = 0,
-                lines = el.value.substr(0).split('\n'),
-                lineNumber = el.value.substr(0, el.selectionStart).split('\n').length - 1,
-                index = -1,
-                length = lines.length;
-            while (++index < length) {
-                currentTotalLength += lines[index].length > 0 ? lines[index].length + 1 : 1;
-                if (index === lineNumber) {
-                    break;
-                }
-            }
-            currentPosition -= (lines[lineNumber].length + 1) - (currentTotalLength - currentPosition);
-            lines[lineNumber] = '\n' + lines[lineNumber];
-            el.value = lines.join('\n');
-            setSelectionRange(el, currentPosition, currentPosition);
-        }
-
+    }])
+    .directive('createPost', function () {
         return {
             // Public
             templateUrl: 'app/createPost/createPost.html',
             restrict: 'EA',
-            link: function (scope) {
+            controller: 'CreatePostCtrl',
+            link: function(scope, element, attrs, createPostCtrl) {
+
+                var el = document.getElementById('text-input');
+
+                var composer = createPostCtrl.composer(el);
+
                 var mods = {
                     bold: '**SAMPLE**',
                     italic: '*SAMPLE*',
@@ -305,19 +357,16 @@ angular.module('synergyApp')
                     ul: '- SAMPLE',
                     ol: '1. SAMPLE'
                 };
-                var el = document.getElementById('text-input');
 
-                function apply(el) {
-                    scope.composer.markdown = el.value;
-                    scope.$apply();
-                }
+                var apply = function() {
+                    scope.$apply(function() {
+                        scope.composer.markdown = el.value;
+                    });
+                };
 
-                scope.$watch('composer.collapse', function(val) {
-                    if (val === false) {
-                        angular.element('#text-input').focus();
-                    }
-                });
-
+                /**
+                 *  Textarea event handling
+                 */
                 angular.element(document).delegate('#text-input', 'keydown', function (e) {
                     var keyCode = e.keyCode || e.which,
                         ctrlKey = e.ctrlKey,
@@ -326,12 +375,15 @@ angular.module('synergyApp')
                         start,
                         end;
 
+                    // Tab key handler, allowing indent rather than moving outside
+                    // of the text area.
                     if (keyCode === 9) {
                         e.preventDefault();
                         start = el.selectionStart;
                         end = el.selectionEnd;
 
-                        // set textarea value to: text before caret + tab + text after caret
+                        // set textarea value to: text before caret + tab +
+                        //  text after caret
                         $this.val($this.val().substring(0, start) +
                             '\t' +
                             $this.val().substring(end));
@@ -347,8 +399,9 @@ angular.module('synergyApp')
                     // ctrl+b or cmd + b
                     if (keyCode === 66 && (ctrlKey  || metaKey)) {
                         e.preventDefault();
-                        textConstructor(mods.bold, el).create();
-                        apply(el);
+                        composer.create(mods.bold, function() {
+                            apply();
+                        });
                         return;
                     }
 
@@ -357,8 +410,9 @@ angular.module('synergyApp')
                     // with ctrl+i or cmd + i
                     if (keyCode === 73 && (ctrlKey || e.metaKey)) {
                         e.preventDefault();
-                        textConstructor(mods.italic, el).create();
-                        apply(el);
+                        composer.create(mods.italic, function() {
+                            apply();
+                        });
                         return;
                     }
 
@@ -366,8 +420,9 @@ angular.module('synergyApp')
                     // Advance current line, move cursor to previous, empty line.
                     if (keyCode === 13 && (e.ctrlkey || e.metaKey) && e.shiftKey) {
                         e.preventDefault();
-                        previousLine(el);
-                        apply(el);
+                        composer.previousLine(function() {
+                            apply();
+                        });
                         return;
                     }
 
@@ -376,56 +431,76 @@ angular.module('synergyApp')
                     // Advance to new line on Ctrl or CMD + Enter
                     if (keyCode === 13 && (ctrlKey || e.metaKey)) {
                         e.preventDefault();
-                        advanceToNewLine(el);
-                        apply(el);
+                        composer.advanceToNewLine(function() {
+                            apply();
+                        });
+                        return;
+                    }
+
+
+                    // ESC to close composer
+                    if (keyCode === 27) {
+                        // close the composer
+                        composer.close(function() {
+                            apply();
+                        });
                         return;
                     }
 
                 });
 
                 /**
-                 * Handles toolbar selection. Gets id of clicked toolbar icon, selected
-                 * text if any, and replaces it or places new text where caret is
-                 * located.
+                 * Handles toolbar selection. Gets id of clicked toolbar icon,
+                 * selected text if any, and replaces it or places new text
+                 * where caret is located.
                  * @param {event} event click event
                  */
                 function toolbarHandler(event) {
 
                     switch (event.target.id) {
                     case 'toolbar-bold':
-                        textConstructor(mods.bold, el).create();
-                        apply(el);
+                        composer.create(mods.bold, function() {
+                            apply();
+                        });
                         return;
                     case 'toolbar-italic':
-                        textConstructor(mods.italic, el).create();
-                        apply(el);
+                        composer.create(mods.italic, function() {
+                            apply();
+                        });
                         return;
                     case 'toolbar-code':
-                        textConstructor(mods.code, el).create();
-                        apply(el);
+                        composer.create(mods.code, function() {
+                            apply();
+                        });
                         break;
                     case 'toolbar-link':
-                        textConstructor(mods.link, el).create(function() {
-                            apply(el);
+                        // added a callback to allow scope.$apply() to be
+                        // executed after the user inputs the URL.
+                        composer.create(mods.link, function() {
+                            apply();
                         });
-                        // apply(el);
                         break;
                     case 'toolbar-quote':
-                        textConstructor(mods.quote, el).create();
-                        apply(el);
+                        composer.create(mods.quote, function() {
+                            apply();
+                        });
                         break;
                     case 'toolbar-ul':
-                        textConstructor(mods.ul, el).create();
-                        apply(el);
+                        composer.create(mods.ul, function() {
+                            apply();
+                        });
                         break;
                     case 'toolbar-ol':
-                        textConstructor(mods.ol, el).create();
-                        apply(el);
+                        composer.create(mods.ol, function() {
+                            apply();
+                        });
                         break;
                     }
 
                 }
 
+
+                // Added click event handlers to each part of the toolbar.
                 angular.element('#toolbar-bold').on('click', toolbarHandler);
                 angular.element('#toolbar-italic').on('click', toolbarHandler);
                 angular.element('#toolbar-code').on('click', toolbarHandler);
@@ -434,6 +509,20 @@ angular.module('synergyApp')
                 angular.element('#toolbar-ul').on('click', toolbarHandler);
                 angular.element('#toolbar-ol').on('click', toolbarHandler);
 
-            }
+
+                scope.$watch('composer.collapse', function(val) {
+                    if (val === false) {
+                        angular.element('#text-input').focus();
+                    }
+                });
+
+                scope.closeComposer = function(exit) {
+                    if (exit) {
+                        scope.composer.markdown = '';
+                    }
+                    composer.close();
+                };
+
+            },
         };
     });

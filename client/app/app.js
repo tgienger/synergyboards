@@ -8,6 +8,7 @@ angular.module('synergyApp', [
   'ui.bootstrap',
   'ncy-angular-breadcrumb',
   'ui',
+  'synergy.composer',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider

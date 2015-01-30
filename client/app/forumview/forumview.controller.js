@@ -34,14 +34,6 @@ angular.module('synergyApp')
             composer.collapse = false;
             composer.topic = post.parent;
 
-        }
-        $scope.closeComposer = function(exit) {
-            if (exit) {
-                composer.markdown = '';
-            }
-            composer.collapse = true;
-        }
-
-
+        };
 
 }]);
