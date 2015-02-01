@@ -1,25 +1,25 @@
 #thread-container {margin:0; padding:0; list-style-type:none;}
 .thread {
-	min-height: 150px;
+    min-height: 150px;
     margin: 10px;
-	padding:3px;
-	margin-bottom: 25px;
-	border-radius: 2px;
-	/* width: 100%; */
-	padding-left: 10px;
-	padding-right: 10px;
+    padding:3px;
+    margin-bottom: 25px;
+    border-radius: 2px;
+    /* width: 100%; */
+    padding-left: 10px;
+    padding-right: 10px;
     background: $post-back-color;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
-	position:relative;
+    position:relative;
     /* -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; */
 }
 .message-content img {
-	max-width: 80%;
+    max-width: 80%;
 }
 .thread:before, .thread:after {
-	content:"";
+    content:"";
     position:absolute;
     z-index:-1;
     /* -webkit-box-shadow:0 -1px 10px rgba(0,0,0,0.8);
@@ -33,16 +33,16 @@
     border-radius:100px / 10px;
 }
 .message-profile{
-	width: 150px;
-	color: $font-dark;
+    width: 150px;
+    color: $font-dark;
 }
 .message-profile p {
-	color: $font-dark;
+    color: $font-dark;
 }
 .thread_message {
-	margin-top: 25px;
-	margin-bottom: 25px;
-	width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 100%;
 }
 .post-table {display:table;}
 .post-row {display:table-row;}
@@ -50,9 +50,9 @@
 .post-left,
 .post-middle,
 .post-right {
-	display: table-cell;
-	vertical-align: top;
-	min-height: 150px;
+    display: table-cell;
+    vertical-align: top;
+    min-height: 150px;
 }
 .message-content {}
 .reply_subject{color:$font-medium2;}
@@ -68,32 +68,32 @@
     min-height: 200px;
 }
 .inner_container {
-	background: rgba(100,100,100,0.1);
-	min-height: unquote("calc(100vh - 70px)");
-	border-radius: 5px;
-	border-bottom: 2px solid silver;
-	border-top: 2px solid silver;
+    background: rgba(100,100,100,0.1);
+    min-height: unquote("calc(100vh - 70px)");
+    border-radius: 5px;
+    border-bottom: 2px solid silver;
+    border-top: 2px solid silver;
 
 }
 .forumCloser {
-	z-index: 1000;
-	height: 70px;
-	background: rgba(200,200,200,.8);
-	width: 100%;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    z-index: 1000;
+    height: 70px;
+    background: rgba(200,200,200,.8);
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .threads {
-	// padding-bottom: 10px;
+    // padding-bottom: 10px;
 }
 .innerthread {
 
 }
 .thread-lastpost {
-	font-size: .9em;
+    font-size: .9em;
 }
 .last-post-date {
-	font-size: .80em;
+    font-size: .80em;
 }
 
 
@@ -106,7 +106,7 @@
   margin-bottom: 30px;
 }
 .quote_top {
-  /* background: rgba(0,0,0,0.3); */
+  /* background: rgba(0,0,0,0.1); */
   /* height: 10px; */
   /* padding:3px; */
   width: 100%;
@@ -116,49 +116,48 @@
 }
 .quoted {
     color: $font-dark;
-}
-.quote_link {
-
-}
-.quote_link:before {
-  content: "\f08e";
+    /* background: rgba(0,0,0,0.1); */
 }
 .quote_date {
   text-align: right;
   float: right;
 }
 .message_toolbar {
-	padding:7px;
-	width: 100%;
-	border-top: 1px solid #b0b0b0;
+    padding:7px;
+    width: 100%;
+    border-top: 1px solid #b0b0b0;
 
-	.btn-link {
-		font-weight: bold;
-		text-decoration:none;
-		color:black;
-	}
-	i {
-		color: black;
-		vertical-align: middle;
-	}
+    .btn-link {
+        font-weight: bold;
+        text-decoration:none;
+        color:black;
+    }
+    i {
+        color: black;
+        vertical-align: middle;
+    }
 }
 blockquote {
-	border-left:none;
+    border-left:none;
+    /* border-bottom: 1px dotted black; */
+    border-radius: 3px;
+    background: rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(50, 50, 50, 0.7);
+    -moz-box-shadow:    0px 2px 3px 0px rgba(50, 50, 50, 0.7);
+    box-shadow:         0px 2px 3px -1px rgba(50, 50, 50, 0.7);
+
 }
 blockquote:before {
-	content: "\f10d";
+    /* content: "\f10d";
     font-family: FontAwesome;
     float: left;
-    margin-right: 10px;
+    margin-right: 10px; */
 }
-blockquote:after {
-	content: "\f10e";
-	font-family: FontAwesome;
+/* blockquote:after {
+    content: "\f10e";
+    font-family: FontAwesome;
 
-}
-blockquote {
-	/* box-shadow: inset 0px 10px 40px rgba(0,0,0,.1); */
-}
+} */
 hr {
     border: 0;
     height: 1px;

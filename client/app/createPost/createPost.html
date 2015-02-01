@@ -1,5 +1,5 @@
 
-<div collapse="composer.collapse" class="composer_container navbar-fixed-bottom">
+<div collapse="composerController.collapse" class="composer_container navbar-fixed-bottom">
     <div class="composer">
 
         <!-- <div class="composer-header pull-right"><i class="fa fa-minus pointer" ng-click="closeComposer(false)"></i>&nbsp;<i class="fa fa-close pointer" ng-click="closeComposer(true)"></i>&nbsp;</div> -->
@@ -13,8 +13,8 @@
         <!-- <button id="preview-button"><img src="assets/images/magnifier12.svg" alt="magnifying glass" width="20px"></button> -->
 
         <div class="composer_info">
-            <input id="composer_subject" type="text" ng-model="composer.subject" placeholder="subject: ">
-            <div phone-hidden="phone" class="" id="title">Creating in: {{composer.topic}}</div>
+            <input id="composer_subject" type="text" ng-model="composerController.subject" placeholder="subject: ">
+            <div phone-hidden="phone" class="" id="title">Creating in: {{composerController.topic}}</div>
 
         </div>
 
@@ -35,17 +35,17 @@
                     &nbsp; &nbsp;
                     <i id="toolbar-ol" class="pointer fa fa-list-ol"></i>
                 </div>
-                <textarea scroll-only class="well" name="" id="text-input" ng-model="composer.markdown"></textarea>
+                <textarea class="well" name="" id="synergy-composer" ng-model="composerController.markdown"></textarea>
             </div>
 
             <div id="preview_container">
-                <div markdown="composer.markdown | bbcode"  id="markdown-preview" class="well preview"></div>
+                <div markdown="composerController.markdown | bbcode"  id="markdown-preview" class="well preview"></div>
             </div>
         </div>
 
         <div id="composer_footer">
             <div class="btn btn-danger post-button btn-sm"  ng-click="closeComposer(true)"><i class="fa fa-ban"></i>&nbsp;Cancel</div>
-            <div class="btn btn-primary post-button btn-sm" ng-click="submit()"><i class="fa fa-plus"></i>&nbsp;{{composer.submit}}</div>
+            <div class="btn btn-primary post-button btn-sm" ng-click="synergySubmit()"><i class="fa fa-plus"></i>&nbsp;{{composerController.submitName}}</div>
         </div>
     </div>
 </div>

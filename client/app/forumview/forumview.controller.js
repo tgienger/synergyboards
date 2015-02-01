@@ -4,24 +4,23 @@ angular.module('synergyApp')
     .controller('ForumviewCtrl', ['$scope', '$http', '$stateParams', 'streamForums', function ($scope, $http, $stateParams, streamForums) {
 
         $scope.forums  = [];
-
-        function Composer() {
-            return {
-                markdown: '',
-                subject: '',
-                topic: '',
-                thread: {},
-                submit: 'Topic',
-                collapse: true
-            };
-        }
-
-        var composer = new Composer();
-        $scope.composer = composer;
+        //
+        // var composer = {
+        //     markdown: '',
+        //     subject: '',
+        //     topic: '',
+        //     thread: {},
+        //     submit: 'Topic',
+        //     collapse: true
+        // };
+        //
+        // $scope.synergyComposer = composer;
 
         /**
          *  Grabs thread based on post id or thread id.
          */
+
+
         $http.get('/api/boards/forum/'+$stateParams.id).success(function(b) {
             streamForums.showThread($scope.forums, b);
                 $scope.breadcrumbs = [
@@ -31,9 +30,14 @@ angular.module('synergyApp')
         });
 
         $scope.compose = function(post) {
-            composer.collapse = false;
-            composer.topic = post.parent;
+            // $scope.synergyComposer.submitName = 'Topic';
+            // $scope.synergyComposer.collapse = false;
+            // $scope.synergyComposer.topic = post.parent;
+            $scope.synergyComposer.submit(post);
+        };
 
+        $scope.submit = function() {
+            console.log('posting to database');
         };
 
 }]);

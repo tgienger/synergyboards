@@ -11,15 +11,15 @@
                 </div>
                 <div class="message-content post-right">
                     <h5 class="thread_subject">{{t.subject}}</h5>
-                    <p class="thread_message" ng-bind-html="t.message | bbcode | findLinks | toTrusted"></p>
+                    <p class="thread_message" ng-bind-html="t.message | bbcode | findLinks"></p>
                 </div>
             </div>
         </div>
         <div class="btn-group message_toolbar">
-            <button class="btn btn-sm btn-link" ng-click="compose(t, 'post')"><i class="fa fa-comment"></i>&nbsp;post</button>
-            <button class="btn btn-sm btn-link" ng-click="compose(t, 'quote')"><i class="fa fa-quote-left"></i>&nbsp;quote</button>
-            <button class="btn btn-sm btn-link" ng-click="compose(t, 'reply')"><i class="fa fa-mail-reply"></i>&nbsp;reply</button>
+            <button ng-click="compose(t, 'post');" class="btn btn-sm btn-link"><i class="fa fa-comment"></i>&nbsp;post</button>
+            <button ng-click="compose(t, 'quote');" class="btn btn-sm btn-link"><i class="fa fa-quote-left"></i>&nbsp;quote</button>
+            <button ng-click="compose(t, 'reply');" class="btn btn-sm btn-link"><i class="fa fa-mail-reply"></i>&nbsp;reply</button>
         </div>
     </li>
 </ul>
-<create-post></create-post>
+<synergy-composer synergy-controller="synergyComposer" synergy-submit="submit"></synergy-composer>

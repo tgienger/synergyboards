@@ -1,18 +1,19 @@
 'use strict';
 
 angular.module('synergy.composer', [])
-    .controller('CreatePostCtrl', ['$scope', function( $scope ) {
-
+    .controller('SynergyComposerCtrl', ['$scope', function( $scope ) {
+        var scope = $scope.$new();
 
         this.composer = function(el) {
 
-            var mod;
             /**
              * is text already modded?
              * @type {Boolean}
              */
             var modded = false,
                 currentMod,
+                tabStopSet = false,
+                mod,
 
                 /**
                  * Holds the selected TEXT
@@ -35,6 +36,8 @@ angular.module('synergy.composer', [])
                 '- SAMPLE',
                 '1. SAMPLE'
             ];
+
+
 
             /**
              * Tests string for markdown modifications
@@ -83,6 +86,8 @@ angular.module('synergy.composer', [])
                 return modded;
             };
 
+
+
             /**
              * gets the selected text within the textarea element
              */
@@ -113,6 +118,8 @@ angular.module('synergy.composer', [])
                 return setSelected(startPos, endPos, selectedText);
             };
 
+
+
             /**
              * removes markdown modification
              */
@@ -126,14 +133,19 @@ angular.module('synergy.composer', [])
                 (cb || angular.noop)();
             };
 
+
+            function setText(txt) {
+                el.value = txt;
+                modded = true;
+            }
+
+
+
             /**
              * adds markdown modification
              */
-            var addMod = function(cb) {
-                function setText(txt) {
-                    el.value = txt;
-                    modded = true;
-                }
+            var addMod = function(cb, cb2) {
+
                 var http,
                     position = 0,
                     reg = new RegExp(selected.text, 'g');
@@ -152,19 +164,72 @@ angular.module('synergy.composer', [])
                             });
                             setText(el.value.slice(0, selected.start) + mod + el.value.slice(selected.end));
                             selectIt();
+                            (cb2 || angular.noop)();
                             (cb || angular.noop)();
                         } else {
 
                         }
+                        url = false;
                     }, 'http://');
                 } else {
                     mod = mod.replace(reg, selected.text);
                     setText(el.value.slice(0, selected.start) + mod + el.value.slice(selected.end));
-                    selectIt();
+                    (cb2 || angular.noop)();
                     (cb || angular.noop)();
                 }
 
             };
+
+
+
+            var tabStop = function() {
+
+                var loc,
+                    arr,
+                    index,
+                    length,
+                    newloc,
+                    isSet = false,
+                    regex;
+
+
+                function setEnding(ending) {
+                    loc = ending;
+
+                    arr = loc.split('');
+                    index = -1;
+                    length = arr.length;
+
+                    while (++index < length) {
+                        if (arr[index].search(/\*|\]|\(|\)|\//g) > -1) {
+                            arr[index] = '\\' + arr[index];
+                        }
+                    }
+
+                    newloc = arr.join('');
+                    regex = new RegExp(newloc);
+                }
+
+                function currentPos() {
+                    return getSelection().end;
+                }
+
+                function findEnd() {
+                    var start = currentPos();
+                    var searchText = el.value.slice(start);
+                    return searchText.search(regex) + loc.length;
+                }
+                // console.log(currentPos());
+                // console.log(str.search(regex) + loc.length);
+                return {
+                    findEnd: findEnd,
+                    currentPos: currentPos,
+                    setEnding: setEnding,
+                    isSet: isSet,
+                };
+            };
+            var tabstop = tabStop();
+
 
             /**
              * If no text is selected, send in the default text 'placeholder text'
@@ -174,6 +239,8 @@ angular.module('synergy.composer', [])
                 mod = mod.replace(/SAMPLE/g, selected.text);
                 addMod(cb);
             };
+
+
 
             /**
              * Once modification is complete, re-select text
@@ -187,6 +254,7 @@ angular.module('synergy.composer', [])
                 text = selected.text;
                 modIndex = mod.indexOf(text);
                 modLength = mod.slice(0, modIndex).length;
+                var modEnd = mod.slice(modIndex + text.length, mod.length);
                 if (modded) {
                     index = selected.start + modLength;
                 } else {
@@ -195,15 +263,54 @@ angular.module('synergy.composer', [])
                 el.focus();
                 // el.selectionStart = index;
                 // el.selectionEnd = selected.text.length + index;
-                setSelectionRange(el, index, selected.text.length + index);
+                var ending = selected.text.length + index;
+                setSelectionRange(el, index, ending);
+
+                if (modded) {
+                    tabstop.isSet = true;
+                    tabstop.setEnding(modEnd);
+                } else {
+                    tabstop.isSet = true;
+                }
             };
+
 
 
             // close the composer - keeping the content intact.
+            // with optional callback.
             var close = function(cb) {
-                $scope.composer.collapse = true;
+                scope.composerController.collapse = true;
                 (cb || angular.noop)();
             };
+
+
+
+            // Opens the composer with optional callback
+            var open = function(cb) {
+                scope.composerController.collapse = false;
+                (cb || angular.noop)();
+            };
+
+
+
+            /**
+             * Send external text into the composer (ea. quoting someone elses post)
+             * @param {string}   str The string sent to the composer
+             * @param {Function} cb  Optional callback
+             */
+            var addExternal = function(str, cb) {
+                selected = {
+                    start: el.value.length,
+                    end: el.value.length,
+                    text: str
+                };
+                if (el.value.length > 0) {
+                    selected.text = '\n\n' + selected.text;
+                }
+                setText(el.value.slice(0, selected.start) + selected.text + el.value.slice(selected.end));
+                (cb || angular.noop)();
+            };
+
 
 
             /**
@@ -229,8 +336,7 @@ angular.module('synergy.composer', [])
                             selectIt();
                         }
                     } else {
-                        addMod(cb);
-                        // selectIt();
+                        addMod(cb, selectIt);
                     }
                 } else {
                     noSelect(cb);
@@ -238,6 +344,12 @@ angular.module('synergy.composer', [])
                 }
             };
 
+
+
+            // Set the markdown
+            var setMarkdown = function(md) {
+                scope.composerController.markdown = md;
+            };
 
 
 
@@ -327,26 +439,36 @@ angular.module('synergy.composer', [])
             };
 
 
+
             return Object.freeze({
                 create: create,
                 close: close,
+                open: open,
                 advanceToNewLine: advanceToNewLine,
-                previousLine: previousLine
+                previousLine: previousLine,
+                setMarkdown: setMarkdown,
+                addExternal: addExternal,
+                getSelection: getSelection,
+                setSelectionRange: setSelectionRange,
+                tabstop: tabstop,
             });
         };
 
     }])
-    .directive('createPost', function () {
+    .directive('synergyComposer', function () {
         return {
             // Public
             templateUrl: 'app/createPost/createPost.html',
             restrict: 'EA',
-            controller: 'CreatePostCtrl',
+            controller: 'SynergyComposerCtrl',
+            transclude: true,
+            scope: {synergyController: '=', synergySubmit: '='},
             link: function(scope, element, attrs, createPostCtrl) {
 
-                var el = document.getElementById('text-input');
+                var el = document.getElementById('synergy-composer');
 
                 var composer = createPostCtrl.composer(el);
+
 
                 var mods = {
                     bold: '**SAMPLE**',
@@ -358,39 +480,91 @@ angular.module('synergy.composer', [])
                     ol: '1. SAMPLE'
                 };
 
+
+
+                // Exposing a few functions to $scope. Not sure if there's a
+                // better way to do it.
+                scope.synergyController = scope.composerController = {
+                    markdown: '',
+                    collapse: true,
+
+                    open: function() {
+                      composer.open();
+                    },
+
+                    close: function() {
+                      composer.close();
+                    },
+
+                    submit: function(msg, type) {
+                        this.topic = msg.grandParent || msg.parent;
+                        switch (type) {
+                            case 'quote':
+                                this.subject = 'RE: ' + msg.subject;
+                                composer.open(composer.addExternal('[blockquote=' + msg.username + ']' + msg.message + '[/blockquote]\n\n', function() {
+                                    apply();
+                                }));
+                                break;
+                            case 'reply':
+                                this.subject = 'RE: ' + msg.subject;
+                                composer.open(composer.addExternal('<a href="">@' + msg.username + '</a>\n\n', function() {
+                                    apply();
+                                }));
+                                break;
+                            default:
+                                this.subject = msg.subject;
+                                composer.open();
+                        }
+                    },
+
+                    submitName: 'Post',
+                    subject: '',
+                    topic: '',
+                };
+
+
+
                 var apply = function() {
-                    scope.$apply(function() {
-                        scope.composer.markdown = el.value;
-                    });
+                    scope.$evalAsync(composer.setMarkdown(el.value));
                 };
 
                 /**
                  *  Textarea event handling
                  */
-                angular.element(document).delegate('#text-input', 'keydown', function (e) {
+                angular.element(document).delegate('#synergy-composer', 'keydown', function (e) {
                     var keyCode = e.keyCode || e.which,
                         ctrlKey = e.ctrlKey,
                         metaKey = e.metaKey,
-                        $this = angular.element(this),
-                        start,
-                        end;
-
+                        shiftKey = e.shiftKey,
+                        caret;
+                    // console.log(keyCode);
                     // Tab key handler, allowing indent rather than moving outside
                     // of the text area.
                     if (keyCode === 9) {
                         e.preventDefault();
-                        start = el.selectionStart;
-                        end = el.selectionEnd;
+                        caret = composer.getSelection();
+
+
+                        // If a tabstop is set (after inserting markdown)
+                        // then tab will send the caret to the end of the newly
+                        // added markdown w/o adding a \t (tab spacing).
+                        var ts = composer.tabstop;
+                        if (ts.isSet) {
+                            var start = ts.currentPos();
+                            var end = ts.findEnd() + start;
+                            composer.setSelectionRange(el, end, end);
+                            ts.isSet = false;
+                            return;
+                        }
 
                         // set textarea value to: text before caret + tab +
-                        //  text after caret
-                        $this.val($this.val().substring(0, start) +
-                            '\t' +
-                            $this.val().substring(end));
+                        // selected text (if any) + text after caret
+                        el.value = el.value.substring(0, caret.start) + '\t' + caret.text +
+                            el.value.substring(caret.end);
 
                         // put caret at right position again
-                        el.selectionStart =
-                            el.selectionEnd = start + 1;
+                        // keeping text selected if any.
+                        composer.setSelectionRange(el, caret.start + 1, caret.start + caret.text.length + 1);
                         return;
                     }
 
@@ -408,7 +582,7 @@ angular.module('synergy.composer', [])
                     // ITALIC
                     // make selected text italic
                     // with ctrl+i or cmd + i
-                    if (keyCode === 73 && (ctrlKey || e.metaKey)) {
+                    if (keyCode === 73 && (ctrlKey || metaKey)) {
                         e.preventDefault();
                         composer.create(mods.italic, function() {
                             apply();
@@ -418,7 +592,7 @@ angular.module('synergy.composer', [])
 
                     // (CMD or CTRL) + Shift + ENTER
                     // Advance current line, move cursor to previous, empty line.
-                    if (keyCode === 13 && (e.ctrlkey || e.metaKey) && e.shiftKey) {
+                    if (keyCode === 13 && (ctrlKey || metaKey) && shiftKey) {
                         e.preventDefault();
                         composer.previousLine(function() {
                             apply();
@@ -429,7 +603,7 @@ angular.module('synergy.composer', [])
 
                     // (CMD or CTRL) + ENTER
                     // Advance to new line on Ctrl or CMD + Enter
-                    if (keyCode === 13 && (ctrlKey || e.metaKey)) {
+                    if (keyCode === 13 && (ctrlKey || metaKey)) {
                         e.preventDefault();
                         composer.advanceToNewLine(function() {
                             apply();
@@ -447,7 +621,18 @@ angular.module('synergy.composer', [])
                         return;
                     }
 
+                    // (CTRL || CMD) + Shift + L
+                    if (keyCode === 76 && shiftKey && (ctrlKey || metaKey)) {
+                        e.preventDefault();
+                        composer.create(mods.link, function() {
+                            apply();
+                        });
+                        return;
+                    }
+
                 });
+
+
 
                 /**
                  * Handles toolbar selection. Gets id of clicked toolbar icon,
@@ -500,6 +685,7 @@ angular.module('synergy.composer', [])
                 }
 
 
+
                 // Added click event handlers to each part of the toolbar.
                 angular.element('#toolbar-bold').on('click', toolbarHandler);
                 angular.element('#toolbar-italic').on('click', toolbarHandler);
@@ -510,15 +696,18 @@ angular.module('synergy.composer', [])
                 angular.element('#toolbar-ol').on('click', toolbarHandler);
 
 
-                scope.$watch('composer.collapse', function(val) {
+
+                scope.$watch('composerController.collapse', function(val) {
                     if (val === false) {
-                        angular.element('#text-input').focus();
+                        angular.element('#synergy-composer').focus();
                     }
                 });
 
+
+
                 scope.closeComposer = function(exit) {
                     if (exit) {
-                        scope.composer.markdown = '';
+                        composer.setMarkdown('');
                     }
                     composer.close();
                 };

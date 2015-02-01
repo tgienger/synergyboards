@@ -37,7 +37,7 @@ exports.thread = function(req, res) {
 
   var id = req.params.id;
 
-  db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = ?)) AS grand_parent FROM mybb_posts WHERE tid = ?;', [id,id], function(err, data) {
+  db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = ?)) AS grandParent FROM mybb_posts WHERE tid = ?;', [id,id], function(err, data) {
     if (err) throw err;
     res.send(data);
   });
