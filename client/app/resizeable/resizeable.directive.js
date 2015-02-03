@@ -21,7 +21,7 @@
                     viewport = document.documentElement.clientHeight;
                     var height = currentElement.height();
                     if (height > viewport) {
-                        currentElement.height(viewport)
+                        currentElement.height(viewport);
                     }
                 });
 

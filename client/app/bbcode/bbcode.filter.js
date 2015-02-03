@@ -127,10 +127,10 @@ angular.module('synergyApp')
 
                 "code": {
                     openTag: function(params,content) {
-                        return '<span class="xbbcode-code">';
+                        return '<code>';
                     },
                     closeTag: function(params,content) {
-                        return '</span>';
+                        return '</code>';
                     },
                     noParse: true
                 },
@@ -372,7 +372,7 @@ angular.module('synergyApp')
                 },
                 "small": {
                     openTag: function(params,content) {
-                        var params = params || '';
+                        params = params || '';
                         var colorCode = params.substr(1) || "inherit";
                         colorNamePattern.lastIndex = 0;
                         colorCodePattern.lastIndex = 0;
@@ -810,6 +810,7 @@ angular.module('synergyApp')
                 removeMisalignedTags: false,
                 addInLineBreaks: false
             });
+
             return result.html;
         }
     });

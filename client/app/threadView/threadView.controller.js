@@ -7,7 +7,6 @@
         $http.get('/api/boards/thread/'+ $stateParams.id).success(function(b) {
             // $scope.maximized = false;
             $scope.thread = $scope.thread || [];
-            console.log(b);
             streamForums.showThread($scope.thread || ($scope.thread = []), b);
             $scope.breadcrumbs = [
                 {name: 'Home', url: 'main'},

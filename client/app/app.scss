@@ -89,12 +89,13 @@ body {color:$font-dark;font-family: 'Arimo', sans-serif;font-size: 15px;font-wei
 
 // Component styles are injected through grunt
 // injector
-@import 'createPost/createPost.scss';
+@import 'bbcode/bbcode.scss';
 @import 'forums/forums.scss';
 @import 'forumview/forumview.scss';
 @import 'main/main.scss';
 @import 'navBar/navBar.scss';
 @import 'sceditor/sceditor.scss';
+@import 'synergyComposer/synergyComposer.scss';
 @import 'threadView/threadView.scss';
 @import 'threads/threads.scss';
 @import 'modal/modal.scss';

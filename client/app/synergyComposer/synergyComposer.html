@@ -10,16 +10,16 @@
             </span> -->
         </div>
 
-        <!-- <button id="preview-button"><img src="assets/images/magnifier12.svg" alt="magnifying glass" width="20px"></button> -->
+
 
         <div class="composer_info">
             <input id="composer_subject" type="text" ng-model="composerController.subject" placeholder="subject: ">
-            <div phone-hidden="phone" class="" id="title">Creating in: {{composerController.topic}}</div>
-
+            <div class="syn-xs-hidden" id="title">Creating in: {{composerController.topic}} <i ng-click="composerController.close()" class="fa fa-minus pull-right pointer"></i></div>
+            <div class="syn-xs-visible" id="phone-view-toggle"><span class="pointer" ng-click="synergyPhonePreviewToggle()"><img src="assets/images/magnifier12.svg" alt="magnifying glass" width="20px"></span></div>
         </div>
 
         <div id="markdown_container">
-            <div id="textarea_container">
+            <div ng-hide="composerController.previewToggle" id="textarea_container">
                 <div id="text-toolbar" class="well well-sm">
                     <i id="toolbar-bold" class="pointer fa fa-bold"></i>
                     &nbsp; &nbsp;
@@ -38,7 +38,7 @@
                 <textarea class="well" name="" id="synergy-composer" ng-model="composerController.markdown"></textarea>
             </div>
 
-            <div id="preview_container">
+            <div ng-hide="composerController.previewToggle" id="preview_container">
                 <div markdown="composerController.markdown | bbcode"  id="markdown-preview" class="well preview"></div>
             </div>
         </div>

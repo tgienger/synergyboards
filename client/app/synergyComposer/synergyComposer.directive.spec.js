@@ -4,7 +4,7 @@ describe('Directive: createPost', function () {
 
   // load the directive's module and view
   beforeEach(module('synergyApp'));
-  beforeEach(module('app/createPost/createPost.html'));
+  beforeEach(module('app/synergyComposer/synergyComposer.html'));
 
   var element, scope;
 

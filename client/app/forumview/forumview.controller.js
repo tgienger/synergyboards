@@ -4,17 +4,6 @@ angular.module('synergyApp')
     .controller('ForumviewCtrl', ['$scope', '$http', '$stateParams', 'streamForums', function ($scope, $http, $stateParams, streamForums) {
 
         $scope.forums  = [];
-        //
-        // var composer = {
-        //     markdown: '',
-        //     subject: '',
-        //     topic: '',
-        //     thread: {},
-        //     submit: 'Topic',
-        //     collapse: true
-        // };
-        //
-        // $scope.synergyComposer = composer;
 
         /**
          *  Grabs thread based on post id or thread id.
@@ -30,9 +19,7 @@ angular.module('synergyApp')
         });
 
         $scope.compose = function(post) {
-            // $scope.synergyComposer.submitName = 'Topic';
-            // $scope.synergyComposer.collapse = false;
-            // $scope.synergyComposer.topic = post.parent;
+            post.subject = '';
             $scope.synergyComposer.submit(post);
         };
 

@@ -458,16 +458,18 @@ angular.module('synergy.composer', [])
     .directive('synergyComposer', function () {
         return {
             // Public
-            templateUrl: 'app/createPost/createPost.html',
+            templateUrl: 'app/synergyComposer/synergyComposer.html',
             restrict: 'EA',
             controller: 'SynergyComposerCtrl',
             transclude: true,
             scope: {synergyController: '=', synergySubmit: '='},
             link: function(scope, element, attrs, createPostCtrl) {
 
-                var el = document.getElementById('synergy-composer');
-
-                var composer = createPostCtrl.composer(el);
+                var el = document.getElementById('synergy-composer'),
+                    composer = createPostCtrl.composer(el),
+                    c = angular.element('#preview_container'),
+                    c2 = angular.element('#textarea_container'),
+                    previewToggle = false;
 
 
                 var mods = {
@@ -481,10 +483,34 @@ angular.module('synergy.composer', [])
                 };
 
 
+                angular.element(window).on('resize', function() {
+                    if (document.documentElement.clientWidth > 768) {
+                        c.css({'display':'block'});
+                        c2.css({'display':'block'});
+                    }
+                });
+
+
+                /**
+                 * 	While in phone mode toggle between composer and preview
+                 */
+                scope.synergyPhonePreviewToggle = function() {
+                    if (!previewToggle) {
+                        c.css({'display':'block'});
+                        c2.css({'display':'none'});
+                        previewToggle = true;
+                    } else {
+                        c.css({'display':'none'});
+                        c2.css({'display':'block'});
+                        previewToggle = false;
+                    }
+                };
+
 
                 // Exposing a few functions to $scope. Not sure if there's a
                 // better way to do it.
                 scope.synergyController = scope.composerController = {
+                    previewToggle: false,
                     markdown: '',
                     collapse: true,
 
@@ -525,109 +551,194 @@ angular.module('synergy.composer', [])
 
 
                 var apply = function() {
-                    scope.$evalAsync(composer.setMarkdown(el.value));
+                    scope.$evalAsync(function() {
+                        composer.setMarkdown(el.value);
+                    });
+
                 };
 
                 /**
                  *  Textarea event handling
                  */
+
+
                 angular.element(document).delegate('#synergy-composer', 'keydown', function (e) {
-                    var keyCode = e.keyCode || e.which,
-                        ctrlKey = e.ctrlKey,
-                        metaKey = e.metaKey,
-                        shiftKey = e.shiftKey,
+                    var keyCode = e.keyCode || e.which, // keycode send
+                        ctrlKey = e.ctrlKey, // control key
+                        metaKey = e.metaKey, // CMD (mac) Window Key (Windows)
+                        shiftKey = e.shiftKey, // Shift Key
                         caret;
-                    // console.log(keyCode);
-                    // Tab key handler, allowing indent rather than moving outside
-                    // of the text area.
-                    if (keyCode === 9) {
-                        e.preventDefault();
-                        caret = composer.getSelection();
 
 
-                        // If a tabstop is set (after inserting markdown)
-                        // then tab will send the caret to the end of the newly
-                        // added markdown w/o adding a \t (tab spacing).
-                        var ts = composer.tabstop;
-                        if (ts.isSet) {
-                            var start = ts.currentPos();
-                            var end = ts.findEnd() + start;
-                            composer.setSelectionRange(el, end, end);
-                            ts.isSet = false;
-                            return;
+
+                    /**
+                     * Keybind Object constructor
+                     *
+                     * Returns a keyBinds Object:
+                     * @param {Object} keyBind.name The name of the keybind
+                     *                              Object. Can be anything,
+                     *                              it's for user discription.
+                     *
+                     * @param {Int} keyBind.name.key The keyCode for the
+                     *                               keybind ea. 9 == tab
+                     *
+                     * @param {Array} keyBind.name.modifiers Array containing
+                     *                                       required modifier
+                     *                                       keys ea.
+                     *                                       ctrlKey == contol key
+                     *
+                     * @param {Expression} keyBind.name.action Action taken when
+                     *                                         the keybinding is
+                     *                                         pressed.
+                     *                     Example:
+                     *                     function() {
+                     *                         console.log(keyBind.key + ' was pressed');
+                     *                     }
+                     */
+                    var keyBinds = function() {
+
+
+                        /**
+                         * function containing action for TAB key
+                         */
+                        function tabAction() {
+                            caret = composer.getSelection();
+
+
+                            // If a tabstop is set (after inserting markdown)
+                            // then tab will send the caret to the end of the newly
+                            // added markdown w/o adding a \t (tab spacing).
+                            var ts = composer.tabstop;
+                            if (ts.isSet) {
+                                var start = ts.currentPos();
+                                var end = ts.findEnd() + start;
+                                composer.setSelectionRange(el, end, end);
+                                ts.isSet = false;
+                                return;
+                            }
+
+                            // set textarea value to: text before caret + tab +
+                            // selected text (if any) + text after caret
+                            el.value = el.value.substring(0, caret.start) + '\t' + caret.text +
+                                el.value.substring(caret.end);
+
+                            // put caret at right position again
+                            // keeping text selected if any.
+                            composer.setSelectionRange(el, caret.start + 1, caret.start + caret.text.length + 1);
                         }
 
-                        // set textarea value to: text before caret + tab +
-                        // selected text (if any) + text after caret
-                        el.value = el.value.substring(0, caret.start) + '\t' + caret.text +
-                            el.value.substring(caret.end);
 
-                        // put caret at right position again
-                        // keeping text selected if any.
-                        composer.setSelectionRange(el, caret.start + 1, caret.start + caret.text.length + 1);
-                        return;
+
+                        /**
+                         * composer.create function. Adds modifier to composer.
+                         * @param {string} mod Modifier type ea. '**SAMPLE**' == bold
+                         */
+                        function compCreate(mod) {
+                            composer.create(mod, function() {
+                                apply();
+                            });
+                        }
+
+
+
+                        /**
+                         * Returned object - see above for description.
+                         */
+                        return {
+                            'tab': {
+                                key: 9,
+                                modifiers: [],
+                                action: tabAction
+                            },
+                            'bold': {
+                                key: 66,
+                                modifiers: [ctrlKey || metaKey],
+                                action: function() {
+                                    compCreate(mods.bold);
+                                }
+                            },
+                            'italic': {
+                                key: 73,
+                                modifiers: [ctrlKey || metaKey],
+                                action: function() {
+                                    compCreate(mods.italic);
+                                }
+                            },
+                            'addPreviousline': {
+                                key: 13,
+                                modifiers: [ctrlKey || metaKey, shiftKey],
+                                action: function() {
+                                    composer.previousLine(function() {
+                                        apply();
+                                    });
+                                }
+                            },
+                            'addNewline': {
+                                key: 13,
+                                modifiers: [ctrlKey || metaKey],
+                                action: function() {
+                                    composer.advanceToNewLine(function() {
+                                        apply();
+                                    });
+                                }
+                            },
+                            'escToClose': {
+                                key: 27,
+                                modifiers: [],
+                                action: function() {
+                                    composer.close(function() {
+                                        apply();
+                                    });
+                                }
+                            },
+                            'createLink': {
+                                key: 76,
+                                modifiers: [shiftKey, ctrlKey || metaKey],
+                                action: function() {
+                                    compCreate(mods.link);
+                                }
+                            }
+                        };
+
+                    };
+
+
+
+                    /**
+                     * Detects the modifiers from the keybind object
+                     * @param {Object} keybind Keybinding object;
+                     */
+                    function getKeyBindModifiers(keybind) {
+                        var index = -1;
+                        var length = keybind.modifiers.length;
+
+                        while (index++ < length) {
+                            if (keybind.modifiers[index] === false) {
+                                return false;
+                            }
+                        }
+                        return true;
                     }
 
-                    // BOLD
-                    // Make Selected text bold with
-                    // ctrl+b or cmd + b
-                    if (keyCode === 66 && (ctrlKey  || metaKey)) {
-                        e.preventDefault();
-                        composer.create(mods.bold, function() {
-                            apply();
-                        });
-                        return;
-                    }
-
-                    // ITALIC
-                    // make selected text italic
-                    // with ctrl+i or cmd + i
-                    if (keyCode === 73 && (ctrlKey || metaKey)) {
-                        e.preventDefault();
-                        composer.create(mods.italic, function() {
-                            apply();
-                        });
-                        return;
-                    }
-
-                    // (CMD or CTRL) + Shift + ENTER
-                    // Advance current line, move cursor to previous, empty line.
-                    if (keyCode === 13 && (ctrlKey || metaKey) && shiftKey) {
-                        e.preventDefault();
-                        composer.previousLine(function() {
-                            apply();
-                        });
-                        return;
-                    }
+                    var keybinds = keyBinds();
 
 
-                    // (CMD or CTRL) + ENTER
-                    // Advance to new line on Ctrl or CMD + Enter
-                    if (keyCode === 13 && (ctrlKey || metaKey)) {
-                        e.preventDefault();
-                        composer.advanceToNewLine(function() {
-                            apply();
-                        });
-                        return;
-                    }
-
-
-                    // ESC to close composer
-                    if (keyCode === 27) {
-                        // close the composer
-                        composer.close(function() {
-                            apply();
-                        });
-                        return;
-                    }
-
-                    // (CTRL || CMD) + Shift + L
-                    if (keyCode === 76 && shiftKey && (ctrlKey || metaKey)) {
-                        e.preventDefault();
-                        composer.create(mods.link, function() {
-                            apply();
-                        });
-                        return;
+                    // scours the keybind object for a match to the currently
+                    // used keys.
+                    for (var key in keybinds) {
+                        var keybind = keybinds[key];
+                            if (keybind.hasOwnProperty('key') && keybind.hasOwnProperty('modifiers') && keybind.hasOwnProperty('action')) {
+                                if (keybind.key === keyCode) {
+                                    if (keybind.modifiers.length < 1) {
+                                        e.preventDefault();
+                                        return keybind.action();
+                                    }
+                                    if (getKeyBindModifiers(keybind)) {
+                                        e.preventDefault();
+                                        return keybind.action();
+                                    }
+                                }
+                            }
                     }
 
                 });
@@ -638,7 +749,7 @@ angular.module('synergy.composer', [])
                  * Handles toolbar selection. Gets id of clicked toolbar icon,
                  * selected text if any, and replaces it or places new text
                  * where caret is located.
-                 * @param {event} event click event
+                 * @param {event} event Click event
                  */
                 function toolbarHandler(event) {
 
@@ -697,6 +808,11 @@ angular.module('synergy.composer', [])
 
 
 
+                /**
+                 * Watch for the value of composer.collapse, if it's set to false
+                 * then put the composer into focus.
+                 * @param  {Boolean} val New value of composer.collapse
+                 */
                 scope.$watch('composerController.collapse', function(val) {
                     if (val === false) {
                         angular.element('#synergy-composer').focus();
@@ -705,6 +821,13 @@ angular.module('synergy.composer', [])
 
 
 
+                /**
+                 * Exits the composer and possibly empties the composer markdown
+                 *         based on variable.
+                 * @param {Boolean} exit True to clear composer for fresh start
+                 *                       False to keep text in composer and just
+                 *                       minimize it.
+                 */
                 scope.closeComposer = function(exit) {
                     if (exit) {
                         composer.setMarkdown('');
