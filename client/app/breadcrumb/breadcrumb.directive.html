@@ -1,0 +1,8 @@
+<md-subheader>
+  <md-list class="">
+      <md-item ng-repeat="breadcrumb in breadcrumbs">
+        <a ng-if="breadcrumb.url" ui-sref="{{breadcrumb.url}}">{{breadcrumb.name}} /</a>
+        <span ng-if="!breadcrumb.url" class="">{{breadcrumb.name}}</span>
+      </md-item>
+  </md-list>
+</md-subheader>

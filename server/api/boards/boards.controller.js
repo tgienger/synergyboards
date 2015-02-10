@@ -36,8 +36,19 @@ exports.id = function(req, res) {
 exports.thread = function(req, res) {
 
   var id = req.params.id;
+  var pid = req.query.pid;
 
-  db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = ?)) AS grandParent FROM mybb_posts WHERE tid = ?;', [id,id], function(err, data) {
+  var query = '';
+  var params = [];
+
+  if (parseInt(id) < 1 || isNaN(id) && pid && !isNaN(pid)) {
+      query = 'SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?))) AS grandParent FROM mybb_posts WHERE tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?)';
+      params = [pid, pid];
+  } else {
+      query = 'SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = (SELECT fid FROM synergyBoard.mybb_threads WHERE tid = ?)) AS grandParent FROM mybb_posts WHERE tid = ?';
+      params = [id, id]
+  }
+  db.query(query, params, function(err, data) {
     if (err) throw err;
     res.send(data);
   });
@@ -49,14 +60,13 @@ exports.thread = function(req, res) {
  * Todo: grab forums based on forum id [fid]
  */
 exports.getThread = function (req, res) {
-  var tid = req.query.tid;
+  var tid = req.params.tid;
   var pid = req.query.pid;
   var fid = req.query.fid;
 
   var query = '';
   var input;
-
-  if (!pid || !isNaN(pid)) {
+  if (pid || !isNaN(pid)) {
     query = 'SELECT * FROM synergyBoard.mybb_posts where tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?)';
     input = pid;
   } else {
@@ -84,7 +94,7 @@ exports.getForum = function(req, res) {
   }
 
   db.query('SELECT *, (SELECT name FROM synergyBoard.mybb_forums WHERE fid = ?) AS parent FROM synergyBoard.mybb_threads WHERE fid = ?;', [id,id], function(err, results) {
-    if (err) throw err;
+    if (err) {throw err;}
     res.send(results);
   });
 
@@ -94,13 +104,29 @@ exports.findPost = function(req, res) {
 
   var pid = req.query.pid;
 
-  if (!pid || isNaN(pid))
+  if (!pid || isNaN(pid)) {
     res.send(401);
+  }
 
   db.query('SELECT * FROM synergyBoard.mybb_posts where tid = (SELECT tid FROM synergyBoard.mybb_posts WHERE pid = ?', [pid], function(err, data) {
-    if (err) throw err;
+    if (err) {throw err;}
 
     res.send(data);
   });
 
 };
+
+exports.searchall = function(req, res) {
+
+    var query = req.params.query;
+    console.log(query);
+    if (!query) {
+        res.send(401);
+    }
+
+    db.query('SELECT *, MATCH(message) AGAINST(?) AS score FROM synergyBoard.mybb_posts where subject LIKE ? OR MATCH(message) AGAINST(?) ORDER BY score DESC', [query+"%", "%"+query+"%", query+"%"], function(err, data) {
+        if (err) {throw err;}
+
+        res.send(data);
+    })
+}

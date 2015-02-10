@@ -8,8 +8,8 @@ angular.module('synergyApp')
         templateUrl: 'app/forumview/forumview.html',
         controller: 'ForumviewCtrl',
         ncyBreadcrumb: {
-            label: '{{forums[0].parent}}',
-            parent:'main'
+          label: '{{forums[0].parent}}',
+          parent:'main'
         }
       });
   });

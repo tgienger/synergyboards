@@ -48,21 +48,28 @@ $post-border-color: #454545;
   @include transform(translate($x, $y));
 }
 
+@mixin calc($property, $expression) {
+    #{$property}: -moz-calc(#{$expression});
+    #{$property}: -webkit-calc(#{$expression});
+    #{$property}: -o-calc(#{$expression});
+    #{$property}: calc(#{$expression});
+}
+
 /**
  * App-wide Styles
  */
-body {color:$font-dark;font-family: 'Arimo', sans-serif;font-size: 15px;font-weight: 500;}
+body {font-family: 'Arimo', sans-serif;font-size: 15px;font-weight: 500;}
 #container {
-    margin-top: 75px;
+    /* margin-top: 75px; */
 }
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
-    color: #000;
+    /* color: #000; */
     padding: 0.2em 0;
 }
 .body_container {
-  background: $body-color;
+  /* background: \$body-color; */
 }
 .pointer {
   cursor: pointer;
@@ -83,9 +90,51 @@ body {color:$font-dark;font-family: 'Arimo', sans-serif;font-size: 15px;font-wei
     background:         linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);
 }
 .currentBreadcrumb {
-    color: $font-medium;
+    /* color: \$font-medium; */
 }
 .breadcrumb {margin:10px;border-radius:0;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);}
+
+
+// ui view animations
+[ui-view].ng-enter {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    position: absolute;
+    top: 65px;
+    left: 0px;
+    right: 0px;
+    opacity: 0;
+}
+
+[ui-view].ng-enter-active {
+    opacity: 1;
+}
+
+[ui-view].ng-leave {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    position: absolute;
+    top: 65px;
+    left: 0px;
+    right: 0px;
+    opacity: 1;
+}
+
+[ui-view].ng-leave-active {
+    opacity: 0;
+}
 
 // Component styles are injected through grunt
 // injector
@@ -98,5 +147,4 @@ body {color:$font-dark;font-family: 'Arimo', sans-serif;font-size: 15px;font-wei
 @import 'synergyComposer/synergyComposer.scss';
 @import 'threadView/threadView.scss';
 @import 'threads/threads.scss';
-@import 'modal/modal.scss';
 // endinjector

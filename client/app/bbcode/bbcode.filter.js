@@ -327,7 +327,7 @@ angular.module('synergyApp')
                             }
                             var quotedMsg = '';
                             if (quoted && quoted.length) {
-                                quotedMsg = '<a style="text-decoration:underline;color:blue;" href="/user/' + quoted + '" class="quoted">' + quoted + '</a> wrote: &nbsp;<a href="/forum/showthread?pid=' + pid + '#' + pid + '" class="quote_link fa"></a>';
+                                quotedMsg = '<a style="text-decoration:underline;color:blue;" href="/user/' + quoted + '" class="quoted">' + quoted + '</a> wrote: &nbsp;<a href="thread/0?pid=' + pid + '&scrollto=' + pid + '" class="quote_link fa fa-link"></a>';
                             }
                             return quotedMsg + '<blockquote class="quote">';
                         };

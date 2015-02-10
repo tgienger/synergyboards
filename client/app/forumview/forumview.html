@@ -1,19 +1,39 @@
-<breadcrumb snap-to></breadcrumb>
-<p style="margin-left:25px;">
-    <button ng-click="compose(forums[0])" class="btn btn-primary">New Post</button>
-    <button class="btn btn-success">Another Button</button>
-</p>
-<ul id="thread-container" class="">
-    <li class="thread">
-        <div class="row post-row">
-            <div class="col-md-12 thread-inner">
-                <div ng-repeat="f in forums" class="">
-                    <p style="font-weight:bold;" class="thread_subject"><a ui-sref="threadview({id: f.tid})">{{f.subject}}</a><br>
-                    <span style="color:black;font-size: 12px;">{{f.username}}</span></p>
+<md-content flex style="margin-top: 35px;">
+  <section>
+    <breadcrumb></breadcrumb>
+    <p style="margin-left:25px;">
+      <md-button class="md-raised md-primary" ng-click="compose()">New Post</md-button>
+      <md-button class="md-raised">Another Button</md-button>
+        <!-- <button ng-click="compose(forums[0])" class="btn btn-primary">New Post</button> -->
+        <!-- <button class="btn btn-success">Another Button</button> -->
+    </p>
+    <md-card>
+      <md-card-content>
+        <md-list>
+          <md-item ng-repeat="f in forums">
+            <md-item-content>
+              <div class="md-tile-content">
+                <h3>{{f.subject}}</h3>
+                <p>{{f.username}}</p>
+              </div>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+    <!-- <ul id="thread-container" class="">
+        <li class="thread">
+            <div class="row post-row">
+                <div class="col-md-12 thread-inner">
+                    <div ng-repeat="f in forums" class="">
+                        <p style="font-weight:bold;" class="thread_subject"><a ui-sref="threadview({id: f.tid})">{{f.subject}}</a><br>
+                        <span style="color:black;font-size: 12px;">{{f.username}}</span></p>
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </li>
-</ul>
-<synergy-composer synergy-controller="synergyComposer" synergy-submit="submit"></synergy-composer>
+        </li>
+    </ul> -->
+    <synergy-composer synergy-controller="synergyComposer" synergy-submit="submit"></synergy-composer>
+  </section>
+</md-content>

@@ -1,15 +1,13 @@
 * {
-  color: white;
+  /* color: \$font-dark; */
 }
 body {
-  background: $body-color;
   margin:0;
   padding:0;
 }
 .board-container {
-    margin: 0;
+    /* margin: auto; */
     padding: 0;
-    list-style-type:none;
 }
 .footer {
     text-align: center;

@@ -466,6 +466,7 @@ angular.module('synergy.composer', [])
             link: function(scope, element, attrs, createPostCtrl) {
 
                 var el = document.getElementById('synergy-composer'),
+                    subject = document.getElementById('composer_subject'),
                     composer = createPostCtrl.composer(el),
                     c = angular.element('#preview_container'),
                     c2 = angular.element('#textarea_container'),
@@ -533,7 +534,7 @@ angular.module('synergy.composer', [])
                                 break;
                             case 'reply':
                                 this.subject = 'RE: ' + msg.subject;
-                                composer.open(composer.addExternal('<a href="">@' + msg.username + '</a>\n\n', function() {
+                                composer.open(composer.addExternal('[url=/user/' + msg.username.toLowerCase() + ']@' + msg.username + '[/url]\n\n', function() {
                                     apply();
                                 }));
                                 break;
@@ -561,14 +562,20 @@ angular.module('synergy.composer', [])
                  *  Textarea event handling
                  */
 
-
+                angular.element(document).delegate(subject, 'keydown', function(e) {
+                  if (e.keyCode === 27) {
+                    composer.close(function() {
+                        apply();
+                    });
+                  }
+                })
                 angular.element(document).delegate('#synergy-composer', 'keydown', function (e) {
                     var keyCode = e.keyCode || e.which, // keycode send
-                        ctrlKey = e.ctrlKey, // control key
-                        metaKey = e.metaKey, // CMD (mac) Window Key (Windows)
-                        shiftKey = e.shiftKey, // Shift Key
+                        ctrlKey = e.ctrlKey, // control key (modifier)
+                        shiftKey = e.shiftKey, // Shift Key (modifier)
+                        altKey = e.altKey, // Alt key (modifier)
+                        metaKey = e.metaKey, // CMD (OSX) Window Key (Windows)
                         caret;
-
 
 
                     /**
@@ -643,30 +650,33 @@ angular.module('synergy.composer', [])
 
                         /**
                          * Returned object - see above for description.
+                         * modifier object: leave empty for zero modifiers otherwise
+                         * 					you must enter all modifiers with either
+                         * 					true or false values.
                          */
                         return {
                             'tab': {
                                 key: 9,
-                                modifiers: [],
+                                modifiers: {},
                                 action: tabAction
                             },
                             'bold': {
                                 key: 66,
-                                modifiers: [ctrlKey || metaKey],
+                                modifiers: {alt:false, ctrl:true, shift:false},
                                 action: function() {
                                     compCreate(mods.bold);
                                 }
                             },
                             'italic': {
                                 key: 73,
-                                modifiers: [ctrlKey || metaKey],
+                                modifiers: {alt:false, ctrl:true, shift:false},
                                 action: function() {
                                     compCreate(mods.italic);
                                 }
                             },
                             'addPreviousline': {
                                 key: 13,
-                                modifiers: [ctrlKey || metaKey, shiftKey],
+                                modifiers: {alt:false, ctrl:true, shift:true},
                                 action: function() {
                                     composer.previousLine(function() {
                                         apply();
@@ -675,7 +685,7 @@ angular.module('synergy.composer', [])
                             },
                             'addNewline': {
                                 key: 13,
-                                modifiers: [ctrlKey || metaKey],
+                                modifiers: {alt:false, ctrl:true, shift:false},
                                 action: function() {
                                     composer.advanceToNewLine(function() {
                                         apply();
@@ -684,7 +694,7 @@ angular.module('synergy.composer', [])
                             },
                             'escToClose': {
                                 key: 27,
-                                modifiers: [],
+                                modifiers: {},
                                 action: function() {
                                     composer.close(function() {
                                         apply();
@@ -693,7 +703,7 @@ angular.module('synergy.composer', [])
                             },
                             'createLink': {
                                 key: 76,
-                                modifiers: [shiftKey, ctrlKey || metaKey],
+                                modifiers: {alt:false, ctrl:true, shift:true},
                                 action: function() {
                                     compCreate(mods.link);
                                 }
@@ -709,13 +719,18 @@ angular.module('synergy.composer', [])
                      * @param {Object} keybind Keybinding object;
                      */
                     function getKeyBindModifiers(keybind) {
-                        var index = -1;
-                        var length = keybind.modifiers.length;
+                        var alt = keybind.modifiers.alt;
+                        var ctrl = keybind.modifiers.ctrl;
+                        var shift = keybind.modifiers.shift;
+                        if (altKey === alt && ctrl === (ctrlKey || metaKey) && shift === shiftKey) {
+                            return true;
+                        }
+                        return false;
+                    }
 
-                        while (index++ < length) {
-                            if (keybind.modifiers[index] === false) {
-                                return false;
-                            }
+                    function isEmpty(obj) {
+                        for (var i in obj) {
+                            return false;
                         }
                         return true;
                     }
@@ -727,18 +742,18 @@ angular.module('synergy.composer', [])
                     // used keys.
                     for (var key in keybinds) {
                         var keybind = keybinds[key];
-                            if (keybind.hasOwnProperty('key') && keybind.hasOwnProperty('modifiers') && keybind.hasOwnProperty('action')) {
-                                if (keybind.key === keyCode) {
-                                    if (keybind.modifiers.length < 1) {
-                                        e.preventDefault();
-                                        return keybind.action();
-                                    }
-                                    if (getKeyBindModifiers(keybind)) {
-                                        e.preventDefault();
-                                        return keybind.action();
-                                    }
+                        if (keybind.hasOwnProperty('key') && keybind.hasOwnProperty('modifiers') && keybind.hasOwnProperty('action')) {
+                            if (keybind.key === keyCode) {
+                                if (isEmpty(keybind.modifiers)) {
+                                    e.preventDefault();
+                                    return keybind.action();
+                                }
+                                if (getKeyBindModifiers(keybind)) {
+                                    e.preventDefault();
+                                    return keybind.action();
                                 }
                             }
+                        }
                     }
 
                 });
@@ -815,7 +830,11 @@ angular.module('synergy.composer', [])
                  */
                 scope.$watch('composerController.collapse', function(val) {
                     if (val === false) {
-                        angular.element('#synergy-composer').focus();
+                      if (scope.composerController.subject === '') {
+                        angular.element(subject).focus();
+                      } else {
+                        angular.element(el).focus();
+                      }
                     }
                 });
 

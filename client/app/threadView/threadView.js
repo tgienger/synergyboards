@@ -4,7 +4,7 @@ angular.module('synergyApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('threadview', {
-        url: '/thread/:id',
+        url: '/thread/:id?pid&scrollto',
         templateUrl: 'app/threadView/threadView.html',
         controller: 'ThreadViewCtrl',
         ncyBreadcrumb: {

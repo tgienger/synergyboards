@@ -1,5 +1,5 @@
 <div class="navbar-sm">
-    <div class="navbar-primary"><nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-primary"><nav class="navbar navbar-default navbar-fixed-top">
           <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -16,6 +16,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
               <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="fa fa-search" ng-click="openSearch()"></a>
+                    </li>
                 <li><a href="#" class="fa fa-spoon"></a></li>
                 <li><a href="#" class="fa fa-bell"></a></li>
                 <li><a href="#" class="fa fa-comment"></a></li>
@@ -35,3 +39,30 @@
         </nav>
         </div>
 </div>
+<synergy-search items="searchResults" posts="postResults" search-collapse="searchCollapse" term="term" search="search(term)" select="selectItem(item)" searching="searching">
+
+    <!-- <md-toolbar class="md-theme-light">
+        <h4 ng-show="hasPosts()" class="resultTitle">Posts</h4>
+    </md-toolbar>
+    <md-content>
+        <md-list class="postResultWrapper result">
+            <md-item ng-repeat="post in posts">
+                <span>{{post.subject}}</span>
+                <span>{{post.message | limitTo: 100}}</span>
+                <span>{{post.username}}</span>
+            </md-item>
+        </md-list>
+    </md-content> -->
+    <h4 ng-show="hasPosts()" class="resultTitle">Posts</h4>
+    <ul class="postResultWrapper result">
+        <li ng-repeat="post in posts" selected-item="post" class="postSearchResults">
+            <a><span class="post-result-subject">{{post.subject}} :</span>
+                <span class="post-result-message">{{post.message | limitTo:100}}</span><br>
+                <span class="post-result-username">{{post.username}}</span></a>
+        </li>
+    </ul>
+    <h4 ng-show="hasUsers()" class="resultTitle">Users</h4>
+    <ul class="userResultWrapper result">
+        <li ng-repeat="user in users" selected-item="user" class="userSearchResults">{{user.username}}</li>
+    </ul>
+</synergy-search>

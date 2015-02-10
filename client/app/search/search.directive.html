@@ -1,0 +1,12 @@
+<div collapse="searchCollapse" class="searchwrap">
+    <form>
+        <div class="searchInputWrap">
+            <input id="search-input" ng-change="query()" ng-model="term" type="text" autocomplete="off">
+            <i class="fa fa-search" ng-hide="searching"></i>
+            <i style="color:#6587ef" class="fa fa-circle-o-notch fa-spin" ng-show="searching"></i>
+        </div>
+        <div style="width:100%;text-align:right;background:black;">
+        </div>
+    </form>
+    <div ng-transclude class="resultswrap"></div>
+</div>

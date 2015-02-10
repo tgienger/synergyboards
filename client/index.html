@@ -13,10 +13,12 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
       <!-- endbower -->
     <!-- endbuild -->
 
     <!-- <link rel="stylesheet" href="minified/themes/default.min.css" type="text/css" media="all" /> -->
+    <link rel="stylesheet" href="vendor/select/select.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
@@ -37,12 +39,15 @@
 
     <!-- Add your site or application content here -->
 
-      <nav-bar></nav-bar>
-      <div id="container">
-          <!-- <div ncy-breadcrumb></div> -->
-          <!-- <breadcrumb></breadcrumb> -->
-          <div ui-view=""></div>
-      </div>
+      <md-content class="md-padding">
+        <nav-bar></nav-bar>
+        <div id="container" style="max-height: 100%;" layout="column" layout="fill">
+            <!-- <div ncy-breadcrumb></div> -->
+            <!-- <breadcrumb></breadcrumb> -->
+          <!-- <md-toolbar layout-align="center center"><h1 class="md-toolbar-tools">header</h1></md-toolbar> -->
+            <div ui-view=""></div>
+        </div>
+      </md-content>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -74,6 +79,9 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/showdown/src/showdown.js"></script>
       <script src="bower_components/alertify.js/lib/alertify.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-aria/angular-aria.js"></script>
+      <script src="bower_components/angular-material/angular-material.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
       <script src="bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
@@ -94,6 +102,8 @@
           <script src="app/resizeable/resizeable.directive.js"></script>
           <script src="app/scripts/helper.js"></script>
           <script src="app/scrollOnly/scrollOnly.directive.js"></script>
+          <script src="app/search/search.directive.js"></script>
+          <script src="app/search/search.service.js"></script>
           <script src="app/snapTo/snapTo.directive.js"></script>
           <script src="app/streamForums/streamForums.service.js"></script>
           <script src="app/synergyComposer/synergyComposer.directive.js"></script>
@@ -101,8 +111,6 @@
           <script src="app/threadView/threadView.js"></script>
           <script src="app/threads/threads.directive.js"></script>
           <script src="app/to_trusted/to_trusted.filter.js"></script>
-          <script src="components/modal/modal.service.js"></script>
-          <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
         <script src="vendor/angular-ui.min.js"></script>
@@ -110,6 +118,9 @@
         <script type="text/javascript" src="vendor/sticky.min.js"></script>
         <script type="text/javascript" src="vendor/mousewheel.js"></script>
         <script type="text/javascript" src="vendor/require.js"></script>
+        <script type="text/javascript" src="vendor/select/select.js"></script>
+        <script type="text/javascript" src="vendor/jquery.colors.js"></script>
+        <script type="text/javascript" src="vendor/angular-animate-1.3.12.js"></script>
         <script type="text/javascript" src="app/scripts/helper.js"></script>
         <!-- <script type="text/javascript" src="vendor/rangyinputs.js"></script> -->
         <!-- <script type="text/javascript" src="vendor/lodash.js"></script> -->

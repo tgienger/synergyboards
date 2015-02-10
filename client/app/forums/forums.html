@@ -1,14 +1,48 @@
-<div class="" id="main-boards">
-    <ul ng-repeat="board in boards">
-        <li>
-            <div class="thread">
-                <h4 style="color:black;text-align:center;">{{board.name}}</h4>
-                <ul ng-repeat="sub in board.replies">
-                    <li class="pointer"><a ui-sref="forumview({id: sub.fid})">{{sub.name}}</a></li>
-                    <li><a ui-sref="threadview({id: sub.lastposttid})">{{sub.lastpostsubject}}</a></li>
-                    <li>{{sub.lastposter}}</li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-</div>
+<md-list id="main-boards">
+<md-item ng-repeat="board in boards track by $index">
+<md-content>
+<section>
+<md-card>
+<md-toolbar style="z-index: 0;" class="" layout-align="center center">{{board.name}}</md-toolbar>
+<md-card-content>
+<md-list>
+  <md-item ng-repeat="sub in board.replies track by $index">
+    <md-item-content class="md-tile-content">
+      <div style="width:100%;" layout="row" layout-align="space-around center">
+
+        <div layout="column" layout-align="space-around center" tooltip="test" class="forumLogo">
+
+          <md-button style="z-index:0;" class="md-fab md-accent" aria-label="{{sub.name}}" ui-sref="forumview({id: sub.fid, scrollto:sub.lastpostid})">
+            <i class="fa fa-comment fa-2x"></i>
+            <md-tooltip>
+              {{sub.name}}
+            </md-tooltip>
+            <!-- <md-icon class="md-primary md-fab" icon="assets/images/magnifier12.svg"></md-icon> -->
+          </md-button>
+          <p><i class="fa fa-comments" tooltip="topics"></i> {{sub.threads}} <i class="fa fa-pencil"></i> {{sub.posts}}</p>
+        </div>
+
+
+        <div flex="66" class="">
+          <h3 class="pointer" ui-sref="forumview({id: sub.fid, scrollto:sub.lastpostid})">{{sub.name}}
+          </h3>
+          <p class="">{{sub.description}}</p>
+        </div>
+
+
+        <div flex layout="column" layout-align="center center">
+          <p hide-sm class="" ng-show="sub.lastposter"><a href="#">{{sub.lastposter}}: &nbsp;</a></p>
+          <p class=""><a ui-sref="threadview({id: sub.lastposttid, scrollto:sub.lastpostid})">{{sub.lastpostsubject | limitTo:45}}</a></p>
+        </div>
+      </div>
+    </md-item-content>
+    <md-divider md-inset ng-if="!$last"></md-divider>
+  </md-item>
+</md-list>
+
+</md-card-content>
+</md-card>
+</section>
+</md-content>
+</md-item>
+</md-list>

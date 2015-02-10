@@ -1,3 +1,140 @@
-#main-boards {width: 100%}
-#main-boards ul {list-style-type:none;color:black;padding: 0;}
+#main-boards {/* width: 100% */}
+.forumLogo {
+    margin: 16px;
+    margin-right: 25px;
+    /* image {
+        color: #1c72bd;
+    } */
+}
+.forumIcon {
+    /* width: 48px;
+    border-radius: 48px; */
+}
+.md-toolbar {
+    position: relative;
+}
+body {
+    height:100%;
+}
+#main-boards md-card {
+    /* text-align: center; */
+    color:$font-dark;
+
+    md-item-content {
+        color:black;
+        i {
+            /* color:#1c72bd; */
+        }
+        h2, h3, p {
+            color:$font-medium;
+        }
+        .forumTitle {
+            font-weight: bold;
+            color: $font-medium;
+            text-align: left;
+            margin-left: 30px;
+        }
+        .subDesc {
+            text-align: left;
+        }
+    }
+}
+/* #main-boards ul {
+    list-style-type:none;
+    color:black;
+    padding: 0;
+
+    li ul li{
+        min-height: 95px;
+        line-height: 60px;
+        border-top: 1px solid #d4d4d4;
+        color:black;
+        width:100%;
+        position: relative;
+
+        .subPostWrap {
+            padding-top: 15px;
+            line-height: 20px;
+            width: 40%;
+            position:absolute;
+            padding-right: 15px;
+            right:0;
+            overflow: hidden;
+
+            &:hover {
+                background: rgba(0, 110, 255, 0.17);
+            }
+        }
+
+        .subLogo {
+            float:left;
+            position:relative;
+            width: 80px;
+            height: 95px;
+            margin: auto;
+            text-align: center;
+            z-index: 100;
+
+            .subIcon {
+                position: relative;
+                top:7px;
+            }
+
+            i {
+                color:#1c72bd;
+            }
+            .postCount {
+                width: 100%;
+                font-size: .8em;
+                color: \$font-medium;
+                position:relative;
+                bottom: 12px;
+                z-index: 1001;
+            }
+
+            &:hover {
+                background: #1c72bd;
+
+                p,
+                i {
+                    color: white;
+                }
+            }
+        }
+
+        .subNameWrap {
+            position:absolute;
+            left:80px;
+            width: 60%;
+            padding-left: 15px;
+            overflow:hidden;
+
+            &:hover {
+                background: rgba(0, 110, 255, 0.17);
+            }
+
+            p {
+                margin-bottom: -10px;
+            }
+        }
+        .subName {
+            font-size: 1.3em;
+            color: \$font-medium;
+            font-weight: bold;
+
+            &:hover {
+                color:#1c72bd;
+                text-decoration: underline;
+            }
+        }
+        .subDesc {
+            line-height: 30px;
+            color: \$font-medium;
+            width: 90%;
+        }
+    }
+
+}
 #main-boards > .thread {color:black;}
+#main-boards > .subname {}
+ */

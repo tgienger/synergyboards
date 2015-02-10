@@ -6,7 +6,10 @@ angular.module('synergyApp')
   // })
   // .factory("Forums", ['$http', function($http) {
       function sortByDateline(a, b) {
-        return a.dateline - b.dateline
+        return a.dateline - b.dateline;
+      }
+      function sortByDispOrder(a, b) {
+          return a.disporder - b.disporder;
       }
       return {
         showForums: function(viewModel, results) {
@@ -17,16 +20,17 @@ angular.module('synergyApp')
             if (post.pid > 0) {
               angular.forEach(merged, function(parent) {
                 if (parent.fid === post.pid) {
-                  parent.replies.push(post)
+                  parent.replies.push(post);
                 }
-              })
+              });
             } else {
-              viewModel.push(post)
+              viewModel.push(post);
+              viewModel.sort(sortByDispOrder);
             }
           });
           angular.forEach(viewModel, function(parent) {
             if (angular.isArray(parent.replies)) {
-              parent.replies.sort(sortByDateline)
+              parent.replies.sort(sortByDispOrder);
             }
           });
           // viewModel.sort(sortByGmdateCreated)
@@ -34,9 +38,9 @@ angular.module('synergyApp')
 
         showThread: function(viewModel, results) {
           angular.forEach(results, function(post) {
-              viewModel.push(post)
+              viewModel.push(post);
           });
-          viewModel.sort(sortByDateline)
+          viewModel.sort(sortByDateline);
         },
       }
     }

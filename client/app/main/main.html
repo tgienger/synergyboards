@@ -1,14 +1,21 @@
 <!-- <div ng-include="'components/navbar/navbar.html'"></div> -->
-<breadcrumb snap-to></breadcrumb>
-<div class="">
-  <div class="board-container">
-    <forums boards="boards"></forums>
-  </div>
-  <footer class="footer">
-    <div class="container">
-        <p> Synergy Boards v0.1.0 |
-          <a href="#">@tgienger</a> |
-           <a href="#">Issues</a></p>
+<md-content flex style="margin-top:35px">
+  <section>
+    <breadcrumb></breadcrumb>
+    <!-- <md-subheader>subheader stuff</md-subheader> -->
+    <div class="">
+      <!-- <div class="board-container"> -->
+        <!-- <md-content> -->
+        <forums boards="boards"></forums>
+        <!-- </md-content> -->
+      <!-- </div> -->
+      <footer class="footer">
+        <div class="container">
+            <p> Synergy Boards v0.1.0 |
+              <a href="#">@tgienger</a> |
+               <a href="#">Issues</a></p>
+        </div>
+      </footer>
     </div>
-  </footer>
-</div>
+  </section>
+</md-content>

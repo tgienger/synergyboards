@@ -1,7 +1,116 @@
 .navbar {
     border-radius:0;
-    background: rgba(0,0,0,0.8);
+    /* background: rgba(0,0,0,0.8); */
     /* -webkit-box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 3px 5px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 3px 5px 0px rgba(50, 50, 50, 0.75); */
+}
+.searchwrap {
+    position:fixed;
+    top:50px;
+    width: 100%;
+    left:0;
+    z-index: 1001;
+    ul {
+        list-style-type:none;
+        padding:0;
+
+    }
+}
+.resultswrap {
+    @include calc(width, "100% - 10px");
+    max-height: 75vh;
+    overflow-y: scroll;
+    /* padding-left: 5px;
+    padding-right: 5px; */
+    background: white;
+    color:black;
+    margin:auto;
+    padding:5px;
+    border-radius: 0 0 5px 5px;
+    -webkit-box-shadow: -1px 2px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow:    -1px 2px 2px rgba(0,0,0,0.2);
+    box-shadow:         -1px 2px 2px rgba(0,0,0,0.2);
+    ul li {
+    }
+}
+.result {
+    @include calc(width, "100% - 105px");
+    margin-left: 100px;
+    margin-top: -30px;
+    margin-bottom: 25px;
+}
+.resultTitle {
+    background: #c0c0c1;
+    /* color: white; */
+    text-align: center;
+    width: 100px;
+    height: 100%;
+}
+.userSearchResults {
+    padding: 2px;
+    margin: 0;
+    border:none;
+    line-height: 30px;
+    height: 30px;
+    border-top: 1px solid #cecece;
+    color:$font-dark;
+}
+.postSearchResults {
+    padding: 10px;
+    padding-bottom: 6px;
+    margin: 0;
+    border:none;
+    line-height: 20px;
+    height: 55px;
+    border-bottom: 1px solid #cecece;
+    span {
+        color:$font-dark;
+        font-size: .75em;
+        img {
+            width: 25px;
+        }
+    }
+}
+.searchInputWrap {
+    position: relative;
+    width: 100%;
+    border-top: 1px solid #d8d8d8;
+    padding-left: 25px;
+    /* padding-right: 25px; */
+    height: 52px;
+    background: white;
+    -webkit-box-shadow: -1px 2px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow: -1px 2px 2px rgba(0,0,0,0.2);
+    box-shadow: -1px 2px 2px rgba(0,0,0,0.2);
+    i {
+        position: absolute;
+        right:10px;
+        top:12px;
+        color:$font-medium;
+        font-size: 2em;
+    }
+}
+.searchwrap > form > div > input {
+    display: block;
+    width: 88%;
+    height: 50px;
+    border: 0;
+    outline: none;
+    padding: 0;
+    line-height: 52px;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 25px;
+    color: $font-medium;
+}
+.active {
+    background:#1c72bd;
+    color:white;
+
+    a {
+        span {
+            color:white;
+        }
+    }
 }

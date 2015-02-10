@@ -15,13 +15,13 @@
 
 
             /**
-             * scrolls clicked div to top of page
+             * scrolls div to top of page
              * @param  {number} y y position of clicked element
              * @param  {number} d duration of scroll animation
              * @param {callback} optional callback
              */
               function scrollTo(y, d, cb) {
-                  $('html, body').stop().animate({scrollTop: y}, d, (cb || angular.noop))
+                  $('html, body').stop().animate({scrollTop: y}, d, (cb || angular.noop));
                 // element.css({'position':'fixed', 'top':'50px','z-index':'100'})
               }
 
